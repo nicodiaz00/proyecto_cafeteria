@@ -55,11 +55,14 @@ function mostrarProducto()
         echo "Descripcion: " .$producto->getDescripcion() ."\n";
         echo "Tipo: " .$producto->getTipo() ."\n";
     }
+    echo "Presione Enter para volver al menú de gestión de productos...";
+    fgets(STDIN);
 }
 
 function cargarProducto($producto){ //funcion para ingresar productos al stock de la cafeteria
     global $productos;
     $productos[]=$producto;
+
 }
 function crearProducto(){ //funcion para crear un nuevo producto y cargarlo al stock.
     echo"---------\n";
@@ -73,9 +76,10 @@ function crearProducto(){ //funcion para crear un nuevo producto y cargarlo al s
     $tipo=trim(fgets(STDIN));
 
     $producto = new Producto($nombre,$precio,$descripcion,$tipo);
+    cargarProducto($producto);
     echo "Producto agregado al stock \n";
 
-    cargarProducto($producto);
+
 }
 function eliminarProducto()
 {
@@ -153,7 +157,8 @@ function crearPedido()
 {
     echo "Ingrese su DNI: ";
     $dni = trim(fgets(STDIN));
-    $pedido1=Pedido::crear($dni);
+    $pedido1=Pedido::crear();
+    $pedido1->setCodigoCliente($dni);
     return $pedido1;
 }
 //cargar pedido a lista de pedidos:
@@ -181,6 +186,7 @@ function agregarProductosAlpedido(Pedido $pedido)
         for($i=0;$i<count($productos);$i++){
             if($i== $opcion-1){
                 $pedido->setListaProducto($productos[$i]);
+
             }
         }
         carta();
@@ -204,13 +210,15 @@ function gestionPedido(){
         case 0:
             return;
         case 1:
-            crearPedido();
+            crearPedidoCargarProducto();
             break;
         case 2:
-            carta();
+            listarPedidos();
             break;
         case 3:
-            crearPedidoCargarProducto();
+            crearPedido();
+            break;
+
 
     }
 
@@ -218,9 +226,14 @@ function gestionPedido(){
 function listarPedidos()
 {
     global $pedidos;
-    foreach ($pedidos as $pedido){
-        echo "CodigoPedido: " .$pedido->getCodigo() ."\n";
-        echo ""
+    if(count($pedidos)==0){
+        echo "No hay pedidos creados \n";
+    }else{
+        foreach ($pedidos as $pedido){
+            echo "CodigoPedido: " .$pedido->getCodigo() ."\n";
+            echo "Monto total: " .$pedido->calcularTotal() ."\n";
 
+        }
     }
+
 }
