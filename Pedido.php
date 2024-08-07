@@ -1,5 +1,5 @@
 <?php
-include ('Producto.php');
+ require_once ('Producto.php');
 class Pedido{
 
     private static $cantidad=0;
@@ -7,6 +7,8 @@ class Pedido{
     private $codigoCliente;
     private $montoTotal;
     private $listaProducto=[];
+
+
 
     public function setCodigo($cod){
         $this->codigo=$cod;
