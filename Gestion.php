@@ -35,7 +35,7 @@ function gestionProducto()
             break;
     }
 }
-function cargarStock(){
+function cargarStock(){ //funcion crea 3 productos para tener un stock generico.
     global $productos;
     $producto1 = new Producto("Cafe",3,"Cafe Mediano","Bebida");
     $producto2 = new Producto("Te",1,"Te en hebras","Bebida");
@@ -55,8 +55,7 @@ function mostrarProducto()
         echo "Descripcion: " .$producto->getDescripcion() ."\n";
         echo "Tipo: " .$producto->getTipo() ."\n";
     }
-    echo "Presione Enter para volver al menú de gestión de productos...";
-    fgets(STDIN);
+
 }
 
 function cargarProducto($producto){ //funcion para ingresar productos al stock de la cafeteria
@@ -97,7 +96,8 @@ function eliminarProducto()
     }
     if($posicion == -1){
         echo "Producto no encontrado \n";
-        return $productos;
+
+
     }
     for($i=0;$i<$cantidad;$i++){
         if($i != $posicion){
@@ -180,7 +180,7 @@ function agregarProductosAlpedido(Pedido $pedido)
 {
     global $productos;
     carta();
-    echo "Seleccione 1,2,3 para cargar un producto a su pedido: ";
+    echo "Seleccione la opcion 1, 2, o 3 para cargar un producto a su pedido: \n";
     $opcion=trim(fgets(STDIN));
     while($opcion!=0){
         for($i=0;$i<count($productos);$i++){
