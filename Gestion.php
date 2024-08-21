@@ -8,8 +8,9 @@ $clientes =[];
 $productos =[];
 $pedidos =[];
 
-//funciones para la gestion de producto
+//-------------------seccion producto--------------------
 
+//menu producto
 function gestionProducto()
 {
     echo "Seleccione opcion deseada: \n";
@@ -21,21 +22,20 @@ function gestionProducto()
 
     switch ($opcion){
         case 0:
-
             return;
         case 1:
             crearProducto();
             break;
         case 2:
             mostrarProducto();
-
             break;
         case 3:
             eliminarProducto();
             break;
     }
 }
-function cargarStock(){ //funcion crea 3 productos para tener un stock generico.
+//funcion crea 3 productos para tener un stock generico.
+function cargarStock(){
     global $productos;
     $producto1 = new Producto("Cafe",3,"Cafe Mediano","Bebida");
     $producto2 = new Producto("Te",1,"Te en hebras","Bebida");
@@ -55,15 +55,14 @@ function mostrarProducto()
         echo "Descripcion: " .$producto->getDescripcion() ."\n";
         echo "Tipo: " .$producto->getTipo() ."\n";
     }
-
 }
-
-function cargarProducto($producto){ //funcion para ingresar productos al stock de la cafeteria
+//funcion para ingresar productos al stock de la cafeteria
+function cargarProducto($producto){
     global $productos;
     $productos[]=$producto;
-
 }
-function crearProducto(){ //funcion para crear un nuevo producto y cargarlo al stock.
+//funcion para crear un nuevo producto y llamo a "cargarProducto()"
+function crearProducto(){
     echo"---------\n";
     echo "Ingrese nombre producto: \n";
     $nombre =trim(fgets(STDIN));
@@ -104,8 +103,8 @@ function eliminarProducto()
             $stockProductos[]=$productos[$i];
         }
     }
-    echo "Producto eliminado \n";
     $productos=$stockProductos;
+    echo "Producto eliminado \n";
     return $productos;
 
 
