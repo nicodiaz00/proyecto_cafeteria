@@ -49,12 +49,14 @@ function mostrarProducto()
 {
     global $productos;
     foreach ( $productos as $producto) {
+        echo "Nombre: " .$producto->getNombre() .", Precio: " .$producto->getPrecio().", Descripcion: ".$producto->getDescripcion().", Tipo: ".$producto->getTipo()."\n";
         echo "--------------------------------- \n";
-        echo "Nombre: " .$producto->getNombre()."\n";
-        echo "Precio: " .$producto->getPrecio() ."\n";
-        echo "Descripcion: " .$producto->getDescripcion() ."\n";
-        echo "Tipo: " .$producto->getTipo() ."\n";
+        //echo "Precio: " .$producto->getPrecio() ."\n";
+        //echo "Descripcion: " .$producto->getDescripcion() ."\n";
+        //echo "Tipo: " .$producto->getTipo() ."\n";
     }
+    echo "Presione ENTER para continuar...\n";
+    trim(fgets(STDIN));
 }
 //funcion para ingresar productos al stock de la cafeteria
 function cargarProducto($producto){
@@ -137,11 +139,36 @@ function gestionCliente()
             crearCliente();
             break;
         case 2:
-            echo "los clientes son:";
+            listarClientes();
             break;
         case 3:
             echo "aca eliminamos clientes";
             break;
+    }
+}
+function listarClientes(){
+    global $clientes;
+    if(recorrerArreglo($clientes)==0){
+        echo "No hay clientes registrados.. \n";
+    }else{
+        foreach ($clientes as $cliente){
+            echo "NOMBRE: " .$cliente->getNombre() ." , DNI: ".$cliente->getDni() ."\n";
+            echo "---------- \n";
+        }
+    }
+
+    echo "Presione ENTER para continuar...\n";
+    trim(fgets(STDIN));
+}
+
+function comprobarCliente($dni){
+    global $clientes;
+    foreach ($clientes as $cliente) {
+        if($cliente->getDni() != $dni){
+            crearCliente($dni);
+        }else{
+            echo "cliente registrado";
+        }
     }
 }
 function crearCliente(){
@@ -152,16 +179,19 @@ function crearCliente(){
     echo "Ingrese apellido: \n";
     $apellido = trim(fgets(STDIN));
     echo "Ingrese DNI: \n";
-    $dni = trim(fgets(STDIN));
+    $dniCliente = trim(fgets(STDIN));
+
 
     $nuevoCliente->setNombre($nombre);
     $nuevoCliente->setApellido($apellido);
-    $nuevoCliente->setDni($dni);
+    $nuevoCliente->setDni($dniCliente);
 
     $clientes[]=$nuevoCliente;
     echo "Cliente creado con exito, presione ENTER para continuar \n";
     trim(fgets(STDIN));
 }
+
+//--------------------SECCION DE PEDIDOS-------------------
 function crearPedidoCargarProducto(){
     $unPedido=crearPedido();
     $pedidoAux=agregarProductosAlpedido($unPedido);
