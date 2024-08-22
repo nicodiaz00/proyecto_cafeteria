@@ -3,6 +3,7 @@
 class Pedido{
 
     private static $cantidad=0;
+
     private $codigo;
     private $codigoCliente;
     private $montoTotal;

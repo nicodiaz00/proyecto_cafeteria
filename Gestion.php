@@ -118,7 +118,7 @@ function recorrerArreglo($arreglo){
     return $contador;
 }
 
-
+//--------------------Seccion cliente--------------------
 function gestionCliente()
 {
     echo "--------- \n";
@@ -134,7 +134,7 @@ function gestionCliente()
 
             return;
         case 1:
-            echo "aca creamos clientes";
+            crearCliente();
             break;
         case 2:
             echo "los clientes son:";
@@ -143,6 +143,24 @@ function gestionCliente()
             echo "aca eliminamos clientes";
             break;
     }
+}
+function crearCliente(){
+    global $clientes;
+    $nuevoCliente=Cliente::crearCliente();
+    echo "Ingrese nombre: \n";
+    $nombre =trim(fgets(STDIN));
+    echo "Ingrese apellido: \n";
+    $apellido = trim(fgets(STDIN));
+    echo "Ingrese DNI: \n";
+    $dni = trim(fgets(STDIN));
+
+    $nuevoCliente->setNombre($nombre);
+    $nuevoCliente->setApellido($apellido);
+    $nuevoCliente->setDni($dni);
+
+    $clientes[]=$nuevoCliente;
+    echo "Cliente creado con exito, presione ENTER para continuar \n";
+    trim(fgets(STDIN));
 }
 function crearPedidoCargarProducto(){
     $unPedido=crearPedido();
