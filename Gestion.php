@@ -2,11 +2,13 @@
 require_once ('Pedido.php');
 require_once ('Cliente.php');
 require_once ('Producto.php');
+require_once ('Json/Productos.json');
 
 //arreglos que contendran clientes, productos y pedidos al ejecutar el sistema.
 $clientes =[];
 $productos =[];
 $pedidos =[];
+$productosJson =[];
 
 //-------------------seccion producto--------------------
 
@@ -45,6 +47,7 @@ function cargarStock(){
     $productos[]=$producto2;
     $productos[]=$producto3;
 }
+
 function mostrarProducto()
 {
     global $productos;
@@ -198,8 +201,6 @@ function crearPedidoCargarProducto(){
     cargarPedido($pedidoAux);
 
 }
-
-
 function crearPedido()
 {
     echo "Ingrese su DNI: ";
@@ -275,12 +276,15 @@ function listarPedidos()
     global $pedidos;
     if(count($pedidos)==0){
         echo "No hay pedidos creados \n";
+        echo "Presione ENTER para continuar...\n";
+        trim(fgets(STDIN));
     }else{
         foreach ($pedidos as $pedido){
             echo "CodigoPedido: " .$pedido->getCodigo() ."\n";
             echo "Monto total: " .$pedido->calcularTotal() ."\n";
 
         }
+
     }
 
 }

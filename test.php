@@ -2,12 +2,20 @@
 
 require_once ("Producto.php");
 
-$productito = new Producto("Pancho",19,"pancho rico","sandwich");
+require_once ("Json/Productos.json");
 
-$variable=json_encode($productito);
+function cargaProductoJson(){
+    $arreglo=[];
+    $jsonGet=file_get_contents("Json/Productos.json");
+    $jsonInfo=json_decode($jsonGet,true);
+    $arreglo[]=$jsonInfo;
+    return $arreglo;
 
-echo $variable;
+}
 
+$muestra= cargaProductoJson();
+
+print_r($muestra[1]["Nombre"]);
 
 
 
