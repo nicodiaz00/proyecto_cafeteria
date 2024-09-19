@@ -2,13 +2,35 @@
 require_once ('Pedido.php');
 require_once ('Cliente.php');
 require_once ('Producto.php');
-require_once ('Json/Productos.json');
+
 
 //arreglos que contendran clientes, productos y pedidos al ejecutar el sistema.
 $clientes =[];
 $productos =[];
 $pedidos =[];
 $productosJson =[];
+
+//lectura y creacion de objetos Json
+
+function lecturaJson($infoJson)
+{
+    $jsonArchivo = file_get_contents($infoJson);
+    $arregloJson = json_decode($jsonArchivo, true);
+    return $arregloJson;
+}
+function creaProductoYCarga($arreglo)
+{
+    global $productosJson;
+    foreach ($arreglo as $pr) {
+        $productoAux = new Producto($pr['Nombre'],$pr['Precio'], $pr['Descripcion'], $pr['Tipo']);
+        $productosJson[] = $productoAux;
+    }
+    return $productosJson;
+}
+
+
+
+
 
 //-------------------seccion producto--------------------
 
