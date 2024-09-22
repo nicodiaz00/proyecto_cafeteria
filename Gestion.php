@@ -10,13 +10,18 @@ $productos =[];
 $pedidos =[];
 $productosJson =[];
 
-//lectura y creacion de objetos Json
+//lectura y creacion de Json
 
 function lecturaJson($infoJson)
 {
     $jsonArchivo = file_get_contents($infoJson);
     $arregloJson = json_decode($jsonArchivo, true);
     return $arregloJson;
+}
+
+function guardarInformacion($archivoJson,$arreglo){
+    $info =json_encode($arreglo);
+    file_put_contents($archivoJson,$info);
 }
 function creaProductoYCarga($arreglo)
 {
@@ -27,7 +32,13 @@ function creaProductoYCarga($arreglo)
     }
     return $productosJson;
 }
+//carga del sistema
 
+
+function cargarSistema($parametro1){
+    $variable1 = lecturaJson($parametro1);
+    creaProductoYCarga($variable1);
+}
 
 
 
@@ -42,6 +53,7 @@ function gestionProducto()
     echo "1- Crear y cargar producto a stock\n";
     echo "2- Listar los productos \n";
     echo "3- Eliminar producto del stock \n";
+    echo "4- listar desde arreglo json \n";
     $opcion=trim(fgets(STDIN));
 
     switch ($opcion){
@@ -56,6 +68,9 @@ function gestionProducto()
         case 3:
             eliminarProducto();
             break;
+        case 4:
+            listarProducto();
+            break;
     }
 }
 //funcion crea 3 productos para tener un stock generico.
@@ -69,7 +84,15 @@ function cargarStock(){
     $productos[]=$producto2;
     $productos[]=$producto3;
 }
-
+function listarProducto(){
+    global $productosJson;
+    foreach ($productosJson as $producto){
+        echo "Nombre: " .$producto->getNombre() .", Precio: " .$producto->getPrecio().", Descripcion: ".$producto->getDescripcion().", Tipo: ".$producto->getTipo()."\n";
+        echo "--------------------------------- \n";
+    }
+    echo "Presione ENTER para continuar...\n";
+    trim(fgets(STDIN));
+}
 function mostrarProducto()
 {
     global $productos;
@@ -85,8 +108,8 @@ function mostrarProducto()
 }
 //funcion para ingresar productos al stock de la cafeteria
 function cargarProducto($producto){
-    global $productos;
-    $productos[]=$producto;
+    global $productosJson;
+    $productosJson[]=$producto;
 }
 //funcion para crear un nuevo producto y llamo a "cargarProducto()"
 function crearProducto(){

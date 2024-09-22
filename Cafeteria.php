@@ -7,6 +7,7 @@ require_once('Gestion.php');
 
 function menuBievendida(){
     cargarStock();
+    cargarSistema("Json/productos.json");
     $mostrarMenu=true;
     while(true){
         if($mostrarMenu){
