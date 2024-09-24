@@ -13,9 +13,9 @@ function menuBievendida(){
             echo "Bienvenido a cafeteria 1.0\n";
             echo "Seleccione una opcion: \n";
             echo "0 -Salir\n";
-            echo "1- Gestion cliente\n"; //aca tenemos que poder crear, listar y eliminar cliente
-            echo "2- Gestion producto\n";//aca tenemos que poder mostrar un producto, agregar un producto o sacar un producto del stock
-            echo "3- Gestion pedidos \n"; // aca tenemos que poder crear un pedido, listar los pedidos o eliminar un pedido.
+            echo "1- Gestion cliente\n";
+            echo "2- Gestion producto\n";
+            echo "3- Gestion pedidos \n";
 
         $opcion = trim(fgets(STDIN));
         switch ($opcion){
@@ -24,11 +24,9 @@ function menuBievendida(){
                 exit();
             case 1:
                 gestionCliente();
-
                 break;
             case 2:
                 gestionProducto();
-
                 break;
             case 3:
                 gestionPedido();

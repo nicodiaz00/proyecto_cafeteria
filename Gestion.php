@@ -8,7 +8,6 @@ $clientes =[];
 $productos =[];
 $pedidos =[];
 $productosJson =[];
-
 //lectura y creacion de Json
 function lecturaJson($infoJson)
 {
@@ -82,7 +81,6 @@ function gestionProducto()
         case 3:
             eliminarProducto();
             break;
-
     }
 }
 function listarProducto(){

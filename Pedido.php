@@ -1,26 +1,12 @@
 <?php
  require_once ('Producto.php');
-class Pedido{
+ require_once ('Serializar.php');
+class Pedido implements Serializar{
 
-    private static $cantidad=0;
-    private $codigo;
     private $codigoCliente;
     private $montoTotal;
     private $listaProducto=[];
 
-    public function setCodigo($cod){
-        $this->codigo=$cod;
-    }
-    public function getCodigo(){
-        return $this->codigo;
-    }
-    static function crear(){
-
-        $pedido = new Pedido();
-        Pedido::$cantidad = Pedido::$cantidad +1;
-        $pedido->setCodigo(Pedido::$cantidad);
-        return $pedido;
-    }
     public function setCodigoCliente($cod){
         $this->codigoCliente=$cod;
     }
@@ -51,8 +37,21 @@ class Pedido{
         return $total;
 
     }
+    private function serializarListado(){
+        $listadoProducto =[];
+        foreach($this->listaProducto as $producto){
+            $listadoProducto[]=$producto->serialize();
+        }
+        return $listadoProducto;
+    }
+    public function serialize(){
 
+        return[
+            "codigoCliente"=>$this->codigoCliente,
+            "montoTotal"=>$this->montoTotal,
+            "listaProducto"=>$this->serializarListado()
 
-
+        ];
+    }
 }
 
