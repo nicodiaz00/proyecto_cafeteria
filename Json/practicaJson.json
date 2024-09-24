@@ -1,0 +1,20 @@
+[
+    {
+        "Nombre": "agua",
+        "Precio": 100,
+        "Descripcion": "Agua mineral",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Gaseosa",
+        "Precio": 200,
+        "Descripcion": "Coca cola",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Pizza",
+        "Precio": 300,
+        "Descripcion": "Pizza individual",
+        "Tipo": "Sandwich"
+    }
+]

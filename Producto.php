@@ -1,6 +1,6 @@
 <?php
-
-class Producto{
+require_once ("Serializar.php");
+class Producto implements serializar {
     private $nombre;
     private $precio;
     private $descripcion;
@@ -35,6 +35,15 @@ class Producto{
     }
     public function getTipo(){
         return $this->tipo;
+    }
+
+    public function serialize(){
+        return[
+            "Nombre"=>$this->nombre,
+            "Precio"=>$this->precio,
+            "Descripcion"=>$this->descripcion,
+            "Tipo"=>$this->tipo
+        ];
     }
 
 }

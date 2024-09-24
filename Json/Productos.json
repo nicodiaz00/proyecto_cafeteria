@@ -1,20 +1,26 @@
 [
-  {
-    "Nombre": "Cafe espresso",
-    "Precio": 10,
-    "Descripcion": "Cuerpo suave y notas a fruta y chocolate",
-    "Tipo": "Bebida"
-  },
-  {
-    "Nombre": "Tostado JyQ" ,
-    "Precio": 20 ,
-    "Descripcion": "Sandwich jamon y queso",
-    "Tipo": "Sandwich"
-  },
-  {
-    "Nombre": "Exprimido",
-    "Precio": 15,
-    "Descripcion": "Jugo de naranja",
-    "Tipo": "Bebida"
-  }
+    {
+        "Nombre": "Cafe espresso",
+        "Precio": 10,
+        "Descripcion": "Cuerpo suave y notas a fruta y chocolate",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Tostado JyQ",
+        "Precio": 20,
+        "Descripcion": "Sandwich jamon y queso",
+        "Tipo": "Sandwich"
+    },
+    {
+        "Nombre": "Exprimido",
+        "Precio": 15,
+        "Descripcion": "Jugo de naranja",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Ristretro",
+        "Precio": "1000",
+        "Descripcion": "Cafe de especialidad",
+        "Tipo": "bebida"
+    }
 ]

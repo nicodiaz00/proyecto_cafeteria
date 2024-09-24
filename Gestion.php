@@ -3,7 +3,6 @@ require_once ('Pedido.php');
 require_once ('Cliente.php');
 require_once ('Producto.php');
 
-
 //arreglos que contendran clientes, productos y pedidos al ejecutar el sistema.
 $clientes =[];
 $productos =[];
@@ -11,17 +10,45 @@ $pedidos =[];
 $productosJson =[];
 
 //lectura y creacion de Json
-
 function lecturaJson($infoJson)
 {
     $jsonArchivo = file_get_contents($infoJson);
-    $arregloJson = json_decode($jsonArchivo, true);
-    return $arregloJson;
+    return $jsonArchivo;
 }
+function decodificarJson($datos){
+    $informacion = json_decode($datos,true);
+    return $informacion;
+}
+//carga del sistema
+function cargarSistema($archivoJson){
 
-function guardarInformacion($archivoJson,$arreglo){
-    $info =json_encode($arreglo);
-    file_put_contents($archivoJson,$info);
+    $p1= lecturaJson($archivoJson);
+    $p2= decodificarJson($p1);
+    creaProductoYCarga($p2);
+}
+function guardarProducto($jsonArchivo){
+    global $productosJson;
+    $arregloA = productoToArray($productosJson);
+    $infoJson = arrayToJson($arregloA);
+    guardarinformacion($jsonArchivo,$infoJson);
+
+}
+//convertir arreglo de productos a arreglo asociativo
+function productoToArray($arregloDeProducto){
+    $arreglo=[];
+    foreach ($arregloDeProducto as $producto){
+        $arreglo[]=$producto->serialize();
+    }
+    return $arreglo;
+}
+//Pasar el arreglo a formato json
+function arrayToJson($arreglo){
+    $json= json_encode($arreglo,JSON_PRETTY_PRINT);
+    return $json;
+}
+//guardar el json en el archivo
+function guardarinformacion($archivoJson,$informacion){
+    file_put_contents($archivoJson,$informacion);
 }
 function creaProductoYCarga($arreglo)
 {
@@ -32,19 +59,7 @@ function creaProductoYCarga($arreglo)
     }
     return $productosJson;
 }
-//carga del sistema
-
-
-function cargarSistema($parametro1){
-    $variable1 = lecturaJson($parametro1);
-    creaProductoYCarga($variable1);
-}
-
-
-
-
 //-------------------seccion producto--------------------
-
 //menu producto
 function gestionProducto()
 {
@@ -53,7 +68,6 @@ function gestionProducto()
     echo "1- Crear y cargar producto a stock\n";
     echo "2- Listar los productos \n";
     echo "3- Eliminar producto del stock \n";
-    echo "4- listar desde arreglo json \n";
     $opcion=trim(fgets(STDIN));
 
     switch ($opcion){
@@ -63,45 +77,19 @@ function gestionProducto()
             crearProducto();
             break;
         case 2:
-            mostrarProducto();
+            listarProducto();
             break;
         case 3:
             eliminarProducto();
             break;
-        case 4:
-            listarProducto();
-            break;
-    }
-}
-//funcion crea 3 productos para tener un stock generico.
-function cargarStock(){
-    global $productos;
-    $producto1 = new Producto("Cafe",3,"Cafe Mediano","Bebida");
-    $producto2 = new Producto("Te",1,"Te en hebras","Bebida");
-    $producto3 = new Producto("Tostado",5,"Sandwich jamon y queso","Sandwich");
 
-    $productos[]=$producto1;
-    $productos[]=$producto2;
-    $productos[]=$producto3;
+    }
 }
 function listarProducto(){
     global $productosJson;
     foreach ($productosJson as $producto){
         echo "Nombre: " .$producto->getNombre() .", Precio: " .$producto->getPrecio().", Descripcion: ".$producto->getDescripcion().", Tipo: ".$producto->getTipo()."\n";
         echo "--------------------------------- \n";
-    }
-    echo "Presione ENTER para continuar...\n";
-    trim(fgets(STDIN));
-}
-function mostrarProducto()
-{
-    global $productos;
-    foreach ( $productos as $producto) {
-        echo "Nombre: " .$producto->getNombre() .", Precio: " .$producto->getPrecio().", Descripcion: ".$producto->getDescripcion().", Tipo: ".$producto->getTipo()."\n";
-        echo "--------------------------------- \n";
-        //echo "Precio: " .$producto->getPrecio() ."\n";
-        //echo "Descripcion: " .$producto->getDescripcion() ."\n";
-        //echo "Tipo: " .$producto->getTipo() ."\n";
     }
     echo "Presione ENTER para continuar...\n";
     trim(fgets(STDIN));
@@ -126,8 +114,6 @@ function crearProducto(){
     $producto = new Producto($nombre,$precio,$descripcion,$tipo);
     cargarProducto($producto);
     echo "Producto agregado al stock \n";
-
-
 }
 function eliminarProducto()
 {
@@ -146,7 +132,6 @@ function eliminarProducto()
     if($posicion == -1){
         echo "Producto no encontrado \n";
 
-
     }
     for($i=0;$i<$cantidad;$i++){
         if($i != $posicion){
@@ -156,8 +141,6 @@ function eliminarProducto()
     $productos=$stockProductos;
     echo "Producto eliminado \n";
     return $productos;
-
-
 
 }
 function recorrerArreglo($arreglo){
@@ -208,7 +191,6 @@ function listarClientes(){
     echo "Presione ENTER para continuar...\n";
     trim(fgets(STDIN));
 }
-
 function comprobarCliente($dni){
     global $clientes;
     foreach ($clientes as $cliente) {
@@ -255,7 +237,6 @@ function crearPedido()
     return $pedido1;
 }
 //cargar pedido a lista de pedidos:
-
 function cargarPedido($pedido){
     global $pedidos;
      $pedidos[]=$pedido;
@@ -268,7 +249,6 @@ function carta(){
         echo "----- \n";
     }
 }
-
 function agregarProductosAlpedido(Pedido $pedido)
 {
     global $productos;
@@ -279,7 +259,6 @@ function agregarProductosAlpedido(Pedido $pedido)
         for($i=0;$i<count($productos);$i++){
             if($i== $opcion-1){
                 $pedido->setListaProducto($productos[$i]);
-
             }
         }
         carta();
@@ -311,10 +290,7 @@ function gestionPedido(){
         case 3:
             crearPedido();
             break;
-
-
     }
-
 }
 function listarPedidos()
 {
@@ -327,9 +303,6 @@ function listarPedidos()
         foreach ($pedidos as $pedido){
             echo "CodigoPedido: " .$pedido->getCodigo() ."\n";
             echo "Monto total: " .$pedido->calcularTotal() ."\n";
-
         }
-
     }
-
 }

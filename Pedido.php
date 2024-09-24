@@ -3,13 +3,10 @@
 class Pedido{
 
     private static $cantidad=0;
-
     private $codigo;
     private $codigoCliente;
     private $montoTotal;
     private $listaProducto=[];
-
-
 
     public function setCodigo($cod){
         $this->codigo=$cod;
