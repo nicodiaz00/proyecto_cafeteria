@@ -27,6 +27,16 @@ class Pedido implements Serializar{
             echo "Nombre: " .$producto->getNombre() ."\n";
         }
     }
+    /*
+    public function getListaProductos(){
+        $productosEnPedido="";
+        foreach($this->listaProducto as $producto){
+            $productosEnPedido.=$producto->getNombre()."\n";
+        }
+        return $productosEnPedido;
+
+    }
+    */
     public function calcularTotal()
     {
         $total=0;

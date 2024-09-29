@@ -1,6 +1,7 @@
 <?php
 require_once("Pedido.php");
-class Cliente{
+require_once("Serializar.php");
+class Cliente implements Serializar{
 
     private $nombre;
     private $dni;
@@ -28,6 +29,19 @@ class Cliente{
     }
     public function registrarPedido(Pedido $pedido){
         $this->pedidos[]=$pedido;
+    }
+    public function serialize() {
+        $pedidosSerializados = [];
+        foreach ($this->pedidos as $pedido) {
+            $pedidosSerializados[] = $pedido->serialize();
+        }
+
+        return [
+            "nombre" => $this->nombre,
+            "dni" => $this->dni,
+            "saldo" => $this->saldo,
+            "pedidos" => $pedidosSerializados
+        ];
     }
 
 

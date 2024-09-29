@@ -1,0 +1,21 @@
+[
+  {
+    "codigoCliente":34562461,
+    "montoTotal":30,
+    "listaProducto": [
+      {
+        "Nombre": "Cafe espresso",
+        "Precio": 10,
+        "Descripcion": "Cuerpo suave y notas a fruta y chocolate",
+        "Tipo": "Bebida"
+      },
+      {
+        "Nombre": "Tostado JyQ",
+        "Precio": 20,
+        "Descripcion": "Sandwich jamon y queso",
+        "Tipo": "Sandwich"
+
+      }
+    ]
+  }
+]

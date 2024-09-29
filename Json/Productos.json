@@ -22,5 +22,11 @@
         "Precio": "1000",
         "Descripcion": "Cafe de especialidad",
         "Tipo": "bebida"
+    },
+    {
+        "Nombre": "pizza",
+        "Precio": "4000",
+        "Descripcion": "pizza muzzarella",
+        "Tipo": "sandwich"
     }
 ]

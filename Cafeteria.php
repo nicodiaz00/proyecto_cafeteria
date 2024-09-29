@@ -5,7 +5,7 @@ require_once('Gestion.php');
 
 
 
-function menuBievendida(){
+/*function menuBievendida(){
     cargarSistema("Json/productos.json");
     $mostrarMenu=true;
     while(true){
@@ -34,7 +34,7 @@ function menuBievendida(){
     }
 }
 menuBievendida();
-
+*/
 
 
 
