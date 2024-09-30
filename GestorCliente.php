@@ -4,10 +4,11 @@ require_once ("Cliente.php");
 class GestorCliente
 {
     public $listaClientes = [];
-    private $clientesJson = "Json/clientes.json";
+    private $clientesJson = "Json/Clientes.json";
     public function __construct()
     {
-
+        $arregloCliente = $this->leerJson($this->clientesJson);
+        $this->cargarClientes($arregloCliente);
     }
     public function listarClientes(){
         echo "Lista de clientes: \n";
@@ -102,10 +103,10 @@ class GestorCliente
     private function cargarClientes($arregloClientes){
         foreach($arregloClientes as $arregloCliente){
             $clienteAux = new Cliente();
-            $clienteAux->setNombre($arregloCliente["nombre"]);
-            $clienteAux->setDni($arregloCliente["dni"]);
-            $clienteAux->setSaldo($arregloCliente["saldo"]);
-            $clienteAux->setPedidos($arregloCliente["pedidos"]);
+            $clienteAux->setNombre($arregloCliente['nombre']);
+            $clienteAux->setDni($arregloCliente['dni']);
+            $clienteAux->setSaldo($arregloCliente['saldo']);
+            $clienteAux->setPedidos($arregloCliente['pedidos']);
             $this->listaClientes[]=$clienteAux;
         }
 

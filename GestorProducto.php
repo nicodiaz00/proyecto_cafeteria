@@ -3,6 +3,7 @@ require_once ("Producto.php");
 class GestorProducto{
     private $listaProductos =[];
     private $archivoJson = "Json/Productos.json";
+    
     public function __construct(){
         $arregloAsociativo=$this->leerJson($this->archivoJson);
         $this->cargarStock($arregloAsociativo);

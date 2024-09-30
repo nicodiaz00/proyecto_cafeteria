@@ -1,7 +1,8 @@
-[{
-  "Nombre": "Nicolas",
-  "Dni": 34562461,
-  "Saldo": 20,
-  "Pedidos" : []
-
-}]
+[
+    {
+        "nombre": "nico\r\n",
+        "dni": "34562461\r\n",
+        "saldo": 0,
+        "pedidos": []
+    }
+]

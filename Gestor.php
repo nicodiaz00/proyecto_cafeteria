@@ -83,7 +83,7 @@ Class Gestor{
             $opcion = trim(fgets(STDIN));
             switch ($opcion){
                 case 0:
-
+                    $this->gestionCliente->cerrarGestorCiente();
                     exit();
                 case 1:
                     $this->menuCliente();
