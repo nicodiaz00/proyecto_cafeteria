@@ -8,6 +8,10 @@ class Cliente implements Serializar{
     private $saldo;
     private $pedidos =[];
 
+    public function __construct(){
+
+        $this->setSaldo(0);
+    }
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
@@ -29,6 +33,9 @@ class Cliente implements Serializar{
     }
     public function registrarPedido(Pedido $pedido){
         $this->pedidos[]=$pedido;
+    }
+    public function setPedidos($pedidos){
+        $this->pedidos=$pedidos;
     }
     public function serialize() {
         $pedidosSerializados = [];

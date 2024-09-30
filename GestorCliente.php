@@ -3,7 +3,6 @@ require_once ("Cliente.php");
 
 class GestorCliente
 {
-    private $jsonClientes="Json/Clientes.json";
     public $listaClientes = [];
     private $clientesJson = "Json/clientes.json";
     public function __construct()
@@ -11,11 +10,13 @@ class GestorCliente
 
     }
     public function listarClientes(){
+        echo "Lista de clientes: \n";
         foreach ($this->listaClientes as $cliente){
-
-            echo "Nombre: " .$cliente->getNombre() .", " ."Dni: " . $cliente->getDni() ."\n";
+            echo "Nombre: " .$cliente->getNombre() ." ,Dni: " . $cliente->getDni() ."\n";
             echo "----------\n";
         }
+        echo "Presione enter para continuar\n";
+        trim(fgets(STDIN));
     }
     public function crearCliente(){
         echo "Ingrese nombre: \n";
@@ -27,6 +28,7 @@ class GestorCliente
         $cliente->setNombre($nombre);
         $cliente->setDni($dni);
         $this->listaClientes[] = $cliente;
+        echo $cliente->getNombre() ."registrado con exito\n";
     }
     public function eliminarCliente(){
         $posicion =-1;
@@ -70,6 +72,41 @@ class GestorCliente
             echo"Saldo cargado... \n";
         }else{
             echo "Cliente no existe\n";
+        }
+
+    }
+    //metodos para leer el json, crear el arreglo de cliente y guardar el arreglo de clientes en el json:
+
+    private function leerJson($archivoJson)
+    {
+        $arregloDeClientes = json_decode(file_get_contents($archivoJson),true);
+        return $arregloDeClientes;
+    }
+    private function objetosClientesToJson($arregloObjetos){
+        $arregloAsociativo =[];
+        foreach($arregloObjetos as $cliente){
+            $arregloAsociativo[]=$cliente->serialize();
+        }
+        $aJson=json_encode($arregloAsociativo,JSON_PRETTY_PRINT);
+        return $aJson;
+    }
+    private function guardarClientes(){
+        $json=$this->objetosClientesToJson($this->listaClientes);
+        file_put_contents($this->clientesJson,$json);
+    }
+    public function cerrarGestorCiente()
+    {
+        $this->guardarClientes();
+        echo "gestor cerrado, info guardada...\n";
+    }
+    private function cargarClientes($arregloClientes){
+        foreach($arregloClientes as $arregloCliente){
+            $clienteAux = new Cliente();
+            $clienteAux->setNombre($arregloCliente["nombre"]);
+            $clienteAux->setDni($arregloCliente["dni"]);
+            $clienteAux->setSaldo($arregloCliente["saldo"]);
+            $clienteAux->setPedidos($arregloCliente["pedidos"]);
+            $this->listaClientes[]=$clienteAux;
         }
 
     }

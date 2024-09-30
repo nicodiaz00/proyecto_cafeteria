@@ -20,8 +20,10 @@ Class Gestor{
             echo "Seleccione opcion deseada: \n";
             echo "0- VOLVER \n ";
             echo "1- Listar clientes \n ";
-            echo "2- Agregar Productos \n ";
-            echo "3- Ver pedidos \n ";
+            echo "2- Eliminar cliente \n ";
+            echo "3- Agregar Productos \n ";
+            echo "4- Eliminar producto \n ";
+            echo "5- Ver pedidos \n ";
 
             $opcion = trim(fgets(STDIN));
 
@@ -32,10 +34,13 @@ Class Gestor{
                     $this->gestionCliente->listarClientes();
                     break;
                 case "2":
-                    $this->gestionProducto->cargarProducto();
+                    $this->gestionCliente->eliminarCliente();
                     break;
                 case "3":
-                    $this->gestionPedidos->listarPedidos();
+                    $this->gestionProducto->cargarProducto();
+                    break;
+                case "4":
+                    $this->gestionProducto->eliminarProducto();
 
             }
         }
