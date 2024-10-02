@@ -34,9 +34,11 @@ class Cliente implements Serializar{
     public function registrarPedido(Pedido $pedido){
         $this->pedidos[]=$pedido;
     }
+
     public function setPedidos($pedidos){
         $this->pedidos=$pedidos;
     }
+
     public function serialize() {
         $pedidosSerializados = [];
         foreach ($this->pedidos as $pedido) {

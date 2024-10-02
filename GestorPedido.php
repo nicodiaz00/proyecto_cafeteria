@@ -42,9 +42,9 @@ class GestorPedido
                     $arreglo[$i]['listaProducto'][$x]['Precio'],
                     $arreglo[$i]['listaProducto'][$x]['Descripcion'],
                     $arreglo[$i]['listaProducto'][$x]['Tipo']);
-
+                $pedido->setListaProducto($producto);
             }
-            $pedido->setListaProducto($producto);
+            //$pedido->setListaProducto($producto);
 
             $this->pedidos[] = $pedido;
         }
@@ -67,6 +67,7 @@ class GestorPedido
             echo "Seleccione un producto (1,2,3...) para agregar a su pedido, o 0 para finalizar:\n";
             $opcion = trim(fgets(STDIN));
 
+
             if ($opcion == 0) {
                 break; // Finaliza el bucle si elige 0
             }
@@ -75,6 +76,7 @@ class GestorPedido
 
                 $pedidoAux->setListaProducto($productoSeleccionado);
                 $pedidoAux->setMontoTotal($productoSeleccionado->getPrecio()); // Suma el precio al monto total
+                echo "Producto agregado \n";
 
         }
 

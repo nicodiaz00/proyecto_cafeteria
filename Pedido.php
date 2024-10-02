@@ -14,7 +14,7 @@ class Pedido implements Serializar{
         return $this->codigoCliente;
     }
     public function setMontoTotal($montoTotal){
-        $this->montoTotal=$montoTotal;
+        $this->montoTotal=$this->montoTotal+$montoTotal;
     }
     public function getMontoTotal(){
         return $this->montoTotal;

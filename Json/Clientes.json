@@ -16,5 +16,11 @@
         "dni": "654321\r\n",
         "saldo": 0,
         "pedidos": []
+    },
+    {
+        "nombre": "pepito\r\n",
+        "dni": "234567\r\n",
+        "saldo": 0,
+        "pedidos": []
     }
 ]
