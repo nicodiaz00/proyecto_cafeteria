@@ -42,40 +42,72 @@ class GestorPedido
                     $arreglo[$i]['listaProducto'][$x]['Precio'],
                     $arreglo[$i]['listaProducto'][$x]['Descripcion'],
                     $arreglo[$i]['listaProducto'][$x]['Tipo']);
-                $listaProducto[] = $producto;
+
             }
-            $pedido->setListaProducto($listaProducto);
+            $pedido->setListaProducto($producto);
 
             $this->pedidos[] = $pedido;
         }
+
     }
     //busco tomar los pedidos que estan el arreglo y llevarlo al json para guardar esa informacion
 
     //falta terminar:
-    public function crearPedido()
-    {
-        $productos = $this->gestorProducto->getListaProductos();
-        $opcion = -1;
-        echo "ingrese dni: ";
+    public function crearPedido() {
+        echo "Ingrese DNI: ";
         $dni = trim(fgets(STDIN));
         $pedidoAux = new Pedido();
         $pedidoAux->setCodigoCliente($dni);
 
-        //echo "Ingrese 1 para comenzar a agregar productos a su pedido:\n";
+        echo "Presione 1 para comenzar a agregar productos:\n";
+        $opcion = trim(fgets(STDIN));
 
         while ($opcion != 0) {
-            echo " Carta: \n";
-            for ($i = 0; $i < count($productos); $i++) {
-                echo $i+1 ." -Nombre: " . $productos[$i]->getNombre() ." Precio: " .$productos[$i]->getPrecio()."\n";
-                echo "---------- \n";
+            $this->mostrarCarta();
+            echo "Seleccione un producto (1,2,3...) para agregar a su pedido, o 0 para finalizar:\n";
+            $opcion = trim(fgets(STDIN));
+
+            if ($opcion == 0) {
+                break; // Finaliza el bucle si elige 0
             }
-            echo "Ingrese 1, 2, 3 ...para elegir el producto o cero para finalizar\n";
-            $opcion= trim(fgets(STDIN));
-//falta cerrar pedido
+
+            $productoSeleccionado = $this->gestorProducto->elegirProducto($opcion);
+
+                $pedidoAux->setListaProducto($productoSeleccionado);
+                $pedidoAux->setMontoTotal($productoSeleccionado->getPrecio()); // Suma el precio al monto total
 
         }
 
-
+        $this->pedidos[] = $pedidoAux; // Agrega el pedido a la lista
+        echo "Su pedido ha sido creado, ¡gracias!\n";
     }
+
+    public function listarPedidos(){
+        echo "Pedidos: \n";
+        foreach ($this->pedidos as $pedido) {
+
+            echo "Codigo: " .$pedido->getCodigoCliente() ." ,Monto: ".$pedido->getMontoTotal()."\n";
+            echo "Productos: \n";
+            foreach ($pedido->getListaProducto() as $producto) {
+                echo $producto->getNombre() ."\n";
+            }
+            echo "--------\n";
+
+        }
+        echo "Presione enter para continuar\n";
+        trim(fgets(STDIN));
+    }
+    private function mostrarCarta()
+    {
+        $productosAux = $this->gestorProducto->getListaProductos();
+        for ($i = 0; $i < count($productosAux); $i++) {
+            echo $i+1 ."Nombre: " .$productosAux[$i]->getNombre() ." ,Precio: " .$productosAux[$i]->getPrecio() ." \n";
+            echo "---------\n";
+        }
+    }
+
+
+
+
 
 }

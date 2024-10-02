@@ -41,6 +41,10 @@ Class Gestor{
                     break;
                 case "4":
                     $this->gestionProducto->eliminarProducto();
+                    break;
+                case "5":
+                    $this->gestionPedidos->listarPedidos();
+                    break;
 
             }
         }
@@ -66,6 +70,8 @@ Class Gestor{
                     $this->gestionCliente->crearCliente();
                     break;
                 case "3":
+                    $this->gestionPedidos->crearPedido();
+                    break;
 
             }
         }

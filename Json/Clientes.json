@@ -1,7 +1,19 @@
 [
     {
-        "nombre": "nico\r\n",
+        "nombre": "pepe\r\n",
         "dni": "34562461\r\n",
+        "saldo": 0,
+        "pedidos": []
+    },
+    {
+        "nombre": "pepe\r\n",
+        "dni": "123456\r\n",
+        "saldo": 0,
+        "pedidos": []
+    },
+    {
+        "nombre": "moni\r\n",
+        "dni": "654321\r\n",
         "saldo": 0,
         "pedidos": []
     }

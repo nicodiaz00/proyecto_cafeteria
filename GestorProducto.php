@@ -3,7 +3,6 @@ require_once ("Producto.php");
 class GestorProducto{
     private $listaProductos =[];
     private $archivoJson = "Json/Productos.json";
-    
     public function __construct(){
         $arregloAsociativo=$this->leerJson($this->archivoJson);
         $this->cargarStock($arregloAsociativo);
@@ -96,5 +95,16 @@ class GestorProducto{
     public function getListaProductos()
     {
         return $this->listaProductos;
+    }
+    public function elegirProducto($valor){
+        // Validar si el valor es un índice válido en el array
+        if ($valor > 0 && $valor <= count($this->listaProductos)) {
+            // Restar 1 porque los índices de arrays empiezan en 0
+            $producto = $this->listaProductos[$valor - 1];
+            return $producto;
+        } else {
+            // Si el valor no es válido, devolver null o manejar error
+            return null;
+        }
     }
 }
