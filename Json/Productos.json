@@ -1,32 +1,50 @@
 [
     {
-        "Nombre": "Cafe espresso",
-        "Precio": 10,
-        "Descripcion": "Cuerpo suave y notas a fruta y chocolate",
+        "Nombre": "Ristretto",
+        "Precio": 500,
+        "Descripcion": "Cafe intenso y concentrado",
         "Tipo": "Bebida"
     },
     {
-        "Nombre": "Tostado JyQ",
-        "Precio": 20,
-        "Descripcion": "Sandwich jamon y queso",
+        "Nombre": "Lungo",
+        "Precio": 200,
+        "Descripcion": "Un espresso m\u00e1s largo y menos intenso.",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Espresso",
+        "Precio": 400,
+        "Descripcion": "Un shot intenso y concentrado, un sabor fuerte y amargo",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Cold Brew",
+        "Precio": "350",
+        "Descripcion": "Caf\u00e9 preparado en fr\u00edo, suave y menos \u00e1cido.",
+        "Tipo": "Bebida"
+    },
+    {
+        "Nombre": "Croissant",
+        "Precio": "100",
+        "Descripcion": "Elaborado con una masa hojaldrada y mantequilla",
+        "Tipo": "Panificado"
+    },
+    {
+        "Nombre": "Bagel",
+        "Precio": "80",
+        "Descripcion": "Corteza dorada y crujiente, y su interior suave y esponjoso",
+        "Tipo": "Panificado"
+    },
+    {
+        "Nombre": "Tostado",
+        "Precio": "70",
+        "Descripcion": "Pan de molde tostado, con jam\u00f3n cocido y queso",
         "Tipo": "Sandwich"
     },
     {
-        "Nombre": "Exprimido",
-        "Precio": 15,
-        "Descripcion": "Jugo de naranja",
-        "Tipo": "Bebida"
-    },
-    {
-        "Nombre": "Ristretro",
-        "Precio": "1000",
-        "Descripcion": "Cafe de especialidad",
+        "Nombre": "Licuado Frutilla",
+        "Precio": "900",
+        "Descripcion": "Licuado de frutas",
         "Tipo": "bebida"
-    },
-    {
-        "Nombre": "pizza",
-        "Precio": "4000",
-        "Descripcion": "pizza muzzarella",
-        "Tipo": "sandwich"
     }
 ]

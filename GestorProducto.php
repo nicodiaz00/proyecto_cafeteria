@@ -96,15 +96,15 @@ class GestorProducto{
     {
         return $this->listaProductos;
     }
+
     public function elegirProducto($valor){
-        // Validar si el valor es un índice válido en el array
+
         if ($valor > 0 && $valor <= count($this->listaProductos)) {
-            // Restar 1 porque los índices de arrays empiezan en 0
-            $producto = $this->listaProductos[$valor - 1];
+            $producto = $this->listaProductos[$valor - 1]; // resto uno para coincidir con indice del arreglo
             return $producto;
         } else {
-            // Si el valor no es válido, devolver null o manejar error
-            return null;
+
+            return "Producto invalido"; /*null;*/
         }
     }
 }

@@ -1,25 +1,19 @@
 [
     {
-        "nombre": "pepe\r\n",
-        "dni": "34562461\r\n",
+        "nombre": "Nicolas",
+        "dni": "34562461",
+        "saldo": "100",
+        "pedidos": []
+    },
+    {
+        "nombre": "pepito",
+        "dni": "2020",
         "saldo": 0,
         "pedidos": []
     },
     {
-        "nombre": "pepe\r\n",
-        "dni": "123456\r\n",
-        "saldo": 0,
-        "pedidos": []
-    },
-    {
-        "nombre": "moni\r\n",
-        "dni": "654321\r\n",
-        "saldo": 0,
-        "pedidos": []
-    },
-    {
-        "nombre": "pepito\r\n",
-        "dni": "234567\r\n",
+        "nombre": "juan",
+        "dni": "1212",
         "saldo": 0,
         "pedidos": []
     }

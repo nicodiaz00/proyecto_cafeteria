@@ -9,10 +9,10 @@ class GestorPedido
     private $gestorProducto;
     private $gestorCliente;
 
-    public function __construct()
+    public function __construct($clienteGestion,$productoGestion)
     {
-        $this->gestorProducto = new GestorProducto();
-        $this->gestorCliente = new GestorCliente();
+        $this->gestorProducto = $productoGestion;
+        $this->gestorCliente = $clienteGestion;
         $this->cargarArregloPedidos($this->jsonPedidos);
     }
 
@@ -71,17 +71,15 @@ class GestorPedido
             if ($opcion == 0) {
                 break; // Finaliza el bucle si elige 0
             }
-
             $productoSeleccionado = $this->gestorProducto->elegirProducto($opcion);
 
                 $pedidoAux->setListaProducto($productoSeleccionado);
                 $pedidoAux->setMontoTotal($productoSeleccionado->getPrecio()); // Suma el precio al monto total
-                echo "Producto agregado \n";
+                echo "\033[32mProducto Agregado...\033[0m\n";
 
         }
-
         $this->pedidos[] = $pedidoAux; // Agrega el pedido a la lista
-        echo "Su pedido ha sido creado, ¡gracias!\n";
+        echo "\033[32mSu pedido ha sido creado, ¡gracias!\033[0m\n";
     }
 
     public function listarPedidos(){
@@ -102,10 +100,13 @@ class GestorPedido
     private function mostrarCarta()
     {
         $productosAux = $this->gestorProducto->getListaProductos();
-        for ($i = 0; $i < count($productosAux); $i++) {
-            echo $i+1 ."Nombre: " .$productosAux[$i]->getNombre() ." ,Precio: " .$productosAux[$i]->getPrecio() ." \n";
+        $contador =0;
+        foreach ($productosAux as $producto) {
+            $contador ++;
+            echo $contador ." - " .$producto->getNombre() ." ,Precio: " .$producto->getPrecio() ." \n";
             echo "---------\n";
         }
+
     }
 
 

@@ -22,26 +22,9 @@ class Pedido implements Serializar{
     public function setListaProducto($producto){
         $this->listaProducto[]=$producto;
     }
-    /*
-    public function getListaProducto(){
-        foreach($this->listaProducto as $producto){
-            echo "Nombre: " .$producto->getNombre() ."\n";
-        }
-    }
-    */
     public function getListaProducto() {
         return $this->listaProducto; // Devolver el array de productos
     }
-    /*
-    public function getListaProductos(){
-        $productosEnPedido="";
-        foreach($this->listaProducto as $producto){
-            $productosEnPedido.=$producto->getNombre()."\n";
-        }
-        return $productosEnPedido;
-
-    }
-    */
     public function calcularTotal()
     {
         $total=0;

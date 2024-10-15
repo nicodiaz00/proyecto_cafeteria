@@ -12,7 +12,7 @@ Class Gestor{
     public function __construct(){
         $this->gestionProducto = new GestorProducto();
         $this->gestionCliente = new GestorCliente();
-        $this->gestionPedidos = new GestorPedido();
+        $this->gestionPedidos = new GestorPedido($this->gestionCliente, $this->gestionProducto);
 
     }
     public function menuAdministrador(){
@@ -53,10 +53,12 @@ Class Gestor{
     public function menuCliente(){
         while(true){
             echo "Seleccione opcion deseada: \n";
-            echo "0- VOLVER \n ";
-            echo "1- VER CARTA \n ";
-            echo "2- REGISTRARSE \n ";
-            echo "3- CREAR PEDIDO \n ";
+            echo "0- Volver \n ";
+            echo "1- Ver carta \n ";
+            echo "2- Registrarse \n ";
+            echo "3- Crear pedido \n ";
+            echo "4- Cargar saldo \n ";
+
 
             $seleccion = trim(fgets(STDIN));
 
@@ -67,11 +69,13 @@ Class Gestor{
                     $this->gestionProducto->listarProductos();
                     break;
                 case "2":
-                    $this->gestionCliente->crearCliente();
+                    $this->gestionCliente->registrarCliente();
                     break;
                 case "3":
                     $this->gestionPedidos->crearPedido();
                     break;
+                case "4":
+                    $this->gestionCliente->cargarSaldo();
 
             }
         }
@@ -90,6 +94,7 @@ Class Gestor{
             switch ($opcion){
                 case 0:
                     $this->gestionCliente->cerrarGestorCiente();
+                    $this->gestionProducto->cerrarGestor();
                     exit();
                 case 1:
                     $this->menuCliente();
