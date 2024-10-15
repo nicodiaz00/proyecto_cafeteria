@@ -1,7 +1,7 @@
 <?php
-require_once ("GestorProducto.php");
-require_once ("GestorCliente.php");
-require_once ("GestorPedido.php");
+require_once ("Gestores/GestorProducto.php");
+require_once ("Gestores/GestorCliente.php");
+require_once ("Gestores/GestorPedido.php");
 
 Class Gestor{
 

@@ -4,17 +4,5 @@
         "dni": "34562461",
         "saldo": "100",
         "pedidos": []
-    },
-    {
-        "nombre": "pepito",
-        "dni": "2020",
-        "saldo": 0,
-        "pedidos": []
-    },
-    {
-        "nombre": "juan",
-        "dni": "1212",
-        "saldo": 0,
-        "pedidos": []
     }
 ]
