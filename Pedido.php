@@ -35,6 +35,12 @@ class Pedido implements Serializar{
         return $total;
 
     }
+    public function cargarProductos($arreglodeProducto){ //intento instanciar los productos que vienen en formato arreglo
+        foreach ($arreglodeProducto as $producto){
+            $productoAux=new Producto($producto['Nombre'],$producto['Precio'], $producto['Descripcion'], $producto['Tipo']);
+            $this->listaProducto[]=$productoAux;
+        }
+    }
     private function serializarListado(){
         $listadoProducto =[];
         foreach($this->listaProducto as $producto){

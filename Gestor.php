@@ -8,12 +8,15 @@ Class Gestor{
     private $gestionProducto;
     private $gestionCliente;
     private $gestionPedidos;
-
     public function __construct(){
         $this->gestionProducto = new GestorProducto();
         $this->gestionCliente = new GestorCliente();
         $this->gestionPedidos = new GestorPedido($this->gestionCliente, $this->gestionProducto);
-
+    }
+    public function cerrarSistema(){
+        $this->gestionCliente->cerrarGestorCiente();
+        $this->gestionProducto->cerrarGestor();
+        echo "Hasta luego...\n";
     }
     public function menuAdministrador(){
         while(true){
@@ -45,10 +48,8 @@ Class Gestor{
                 case "5":
                     $this->gestionPedidos->listarPedidos();
                     break;
-
             }
         }
-
     }
     public function menuCliente(){
         while(true){
@@ -58,7 +59,7 @@ Class Gestor{
             echo "2- Registrarse \n ";
             echo "3- Crear pedido \n ";
             echo "4- Cargar saldo \n ";
-
+            echo "5- CREA TU PEDIDO \n ";
 
             $seleccion = trim(fgets(STDIN));
 
@@ -76,14 +77,13 @@ Class Gestor{
                     break;
                 case "4":
                     $this->gestionCliente->cargarSaldo();
-
+                case "5":
+                    $this->gestionPedidos->newPedido();
             }
         }
     }
-
     public function menuBienvenida(){
         while(true){
-
             echo "Bienvenido a cafeteria 2.0\n";
             echo "Seleccione una opcion: \n";
             echo "0 -Salir\n";
@@ -93,8 +93,7 @@ Class Gestor{
             $opcion = trim(fgets(STDIN));
             switch ($opcion){
                 case 0:
-                    $this->gestionCliente->cerrarGestorCiente();
-                    $this->gestionProducto->cerrarGestor();
+                    $this->cerrarSistema();
                     exit();
                 case 1:
                     $this->menuCliente();
@@ -102,7 +101,6 @@ Class Gestor{
                 case 2:
                     $this->menuAdministrador();
                     break;
-
             }
         }
     }

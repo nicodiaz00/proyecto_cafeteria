@@ -5,25 +5,24 @@ class GestorCliente
 {
     public $listaClientes = [];
     private $clientesJson = "Json/Clientes.json";
-
     public function __construct()
     {
         $arregloCliente = $this->leerJson($this->clientesJson);
         $this->cargarClientes($arregloCliente);
     }
-
     public function listarClientes()
     {
         echo "Lista de clientes: \n";
         foreach ($this->listaClientes as $cliente) {
             echo "Nombre: " . $cliente->getNombre() . "\n";
             echo "Dni: " . $cliente->getDni() . "\n";
+            var_dump($cliente->getPedidos());
+            echo "Pedidos: " . $cliente->getPedidos() . "\n";
             echo "----------\n";
         }
         echo "Presione enter para continuar\n";
         trim(fgets(STDIN));
     }
-
     public function crearCliente()
     {
         echo "Ingrese su  nombre \n";
@@ -36,9 +35,7 @@ class GestorCliente
         $cliente->setDni($dni);
         $this->listaClientes[] = $cliente;
         echo "\033[32mregistrado con éxito\033[0m\n";
-
     }
-
     public function eliminarCliente()
     {
         $posicion = -1;
@@ -63,8 +60,7 @@ class GestorCliente
             echo "Cliente eliminado\n";
         }
     }
-
-    private function clienteExiste($dni)
+    public function clienteExiste($dni)
     {
         for ($i = 0; $i < count($this->listaClientes); $i++) {
             if ($this->listaClientes[$i]->getDni() == $dni) {
@@ -73,7 +69,6 @@ class GestorCliente
         }
         return false;
     }
-
     public function cargarSaldo()
     {
         echo "Ingrese dni:  \n";
@@ -86,17 +81,13 @@ class GestorCliente
         } else {
             echo "Cliente no existe\n";
         }
-
     }
-
     //metodos para leer el json, crear el arreglo de cliente y guardar el arreglo de clientes en el json:
-
     private function leerJson($archivoJson)
     {
         $arregloDeClientes = json_decode(file_get_contents($archivoJson), true);
         return $arregloDeClientes;
     }
-
     private function objetosClientesToJson($arregloObjetos)
     {
         $arregloAsociativo = [];
@@ -112,11 +103,10 @@ class GestorCliente
         $json = $this->objetosClientesToJson($this->listaClientes);
         file_put_contents($this->clientesJson, $json);
     }
-
     public function cerrarGestorCiente()
     {
         $this->guardarClientes();
-        echo "gestor cerrado, info guardada...\n";
+
     }
 
     private function cargarClientes($arregloClientes)
@@ -126,19 +116,18 @@ class GestorCliente
             $clienteAux->setNombre($arregloCliente['nombre']);
             $clienteAux->setDni($arregloCliente['dni']);
             $clienteAux->setSaldo($arregloCliente['saldo']);
-            $clienteAux->setPedidos($arregloCliente['pedidos']);
+
+            $clienteAux->cargarPedidos($arregloCliente['pedidos']);
             $this->listaClientes[] = $clienteAux;
         }
-
+        var_dump($this->listaClientes);
     }
-
     public function nuevoCliente($dni, $nombre)
     {
         $nuevoCliente = new Cliente();
         $nuevoCliente->setNombre($nombre);
         $nuevoCliente->setDni($dni);
         return $nuevoCliente;
-
     }
     private function validarCliente($dni)
     {
@@ -149,7 +138,6 @@ class GestorCliente
         }
         return false;  // Cliente no encontrado
     }
-
     public function registrarCliente(){
         echo "Ingrese dni:  \n";
         $dniCliente = trim(fgets(STDIN));
@@ -162,14 +150,5 @@ class GestorCliente
         }else{
             echo "\033[1;31m Ya estas registrado\033[0m\n";
         }
-
-
     }
 }
-
-
-
-
-
-
-

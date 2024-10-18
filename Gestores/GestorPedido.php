@@ -5,7 +5,7 @@ require_once ("GestorProducto.php");
 class GestorPedido
 {
     public $pedidos = [];
-    private $jsonPedidos = "Json/Pedidos.json";
+    private $jsonPedidos = "Json/pedidos.json";
     private $gestorProducto;
     private $gestorCliente;
 
@@ -28,7 +28,17 @@ class GestorPedido
         $arregloPedidos = json_decode(file_get_contents($archivoJson), true);
         return $arregloPedidos;
     }
+    private function encontrarPedido($codigoPedido){
+        foreach ($this->pedidos as $pedido) {
 
+            if ($pedido->getCodigoCliente() === $codigoPedido) {
+                echo "Código del pedido: " . $codigoPedido . "\n";
+
+                return $pedido;
+            }
+        }
+        return null;
+    }
     private function cargarPedidos($arreglo)
     {
         for ($i = 0; $i < count($arreglo); $i++) {
@@ -53,6 +63,63 @@ class GestorPedido
     //busco tomar los pedidos que estan el arreglo y llevarlo al json para guardar esa informacion
 
     //falta terminar:
+
+    public function newPedido(){
+        echo "Ingrese su dni\n";
+        $dniCliente = trim(fgets(STDIN));
+        $this->gestorCliente = new GestorCliente();
+        $cliente=$this->gestorCliente->clienteExiste($dniCliente);
+        if($cliente){
+
+            $this->nuevoPedido($cliente->getDni());
+            $pedido=$this->encontrarPedido($cliente->getDni());
+            $cliente->registrarPedido($pedido);
+            //$cliente->setPedido($pedido);
+            //$this->asociarPedido($cliente,$pedido);
+            var_dump($cliente);
+        }else{
+            echo "No estas registrado \n";
+            echo "Presione enter para continuar\n";
+            trim(fgets(STDIN));
+        }
+    }
+    private function asociarPedido($cliente,$pedido){
+        $this->gestorCliente = new GestorCliente();
+        $clienteAux = $this->gestorCliente->clienteExiste($cliente->getDni());
+        $pedidoAux = $this->encontrarPedido($pedido);
+        $clienteAux->setPedidos($pedidoAux);
+    }
+    private function nuevoPedido($dniCliente){ //funcion dupliaca de crear un pedido
+        $pedidoAux = new Pedido();
+        $pedidoAux->setCodigoCliente($dniCliente);
+
+        echo "Presione 1 para comenzar a agregar productos:\n";
+        $opcion = trim(fgets(STDIN));
+
+        while ($opcion != 0) {
+            $this->mostrarCarta();
+            echo "Seleccione un producto (1,2,3...) para agregar a su pedido, o 0 para finalizar:\n";
+            $opcion = trim(fgets(STDIN));
+
+
+            if ($opcion == 0) {
+                break; // Finaliza el bucle si elige 0
+            }else{
+                $productoSeleccionado = $this->gestorProducto->elegirProducto($opcion);
+                $pedidoAux->setListaProducto($productoSeleccionado);
+                $pedidoAux->setMontoTotal($productoSeleccionado->getPrecio()); // Suma el precio al monto total
+                echo "\033[32mProducto Agregado...\033[0m\n";
+            }
+            //$productoSeleccionado = $this->gestorProducto->elegirProducto($opcion);
+
+            //$pedidoAux->setListaProducto($productoSeleccionado);
+            //$pedidoAux->setMontoTotal($productoSeleccionado->getPrecio()); // Suma el precio al monto total
+            //echo "\033[32mProducto Agregado...\033[0m\n";
+
+        }
+        $this->pedidos[] = $pedidoAux; // Agrega el pedido a la lista
+        echo "\033[32mSu pedido ha sido creado, ¡gracias!\033[0m\n";
+    }
     public function crearPedido() {
         echo "Ingrese DNI: ";
         $dni = trim(fgets(STDIN));
@@ -67,7 +134,6 @@ class GestorPedido
             echo "Seleccione un producto (1,2,3...) para agregar a su pedido, o 0 para finalizar:\n";
             $opcion = trim(fgets(STDIN));
 
-
             if ($opcion == 0) {
                 break; // Finaliza el bucle si elige 0
             }
@@ -81,7 +147,6 @@ class GestorPedido
         $this->pedidos[] = $pedidoAux; // Agrega el pedido a la lista
         echo "\033[32mSu pedido ha sido creado, ¡gracias!\033[0m\n";
     }
-
     public function listarPedidos(){
         echo "Pedidos: \n";
         foreach ($this->pedidos as $pedido) {
@@ -92,7 +157,6 @@ class GestorPedido
                 echo $producto->getNombre() ."\n";
             }
             echo "--------\n";
-
         }
         echo "Presione enter para continuar\n";
         trim(fgets(STDIN));
@@ -106,11 +170,5 @@ class GestorPedido
             echo $contador ." - " .$producto->getNombre() ." ,Precio: " .$producto->getPrecio() ." \n";
             echo "---------\n";
         }
-
     }
-
-
-
-
-
 }

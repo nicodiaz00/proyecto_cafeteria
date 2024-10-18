@@ -31,12 +31,44 @@ class Cliente implements Serializar{
     public function getNombre(){
         return $this->nombre;
     }
-    public function registrarPedido(Pedido $pedido){
+    public function registrarPedido($pedido){
         $this->pedidos[]=$pedido;
     }
-
-    public function setPedidos($pedidos){
-        $this->pedidos=$pedidos;
+    /*
+    public function getpedidos()
+    {
+        foreach ($this->pedidos as $pedido) {
+            echo "Codigo:" .$pedido->getCodigoCliente() ."\n";
+            echo "Monto:" .$pedido->getMontoTotal() ."\n";
+            echo "Productos:\n";
+            foreach ($pedido->getListaproducto() as $producto) {
+                echo $producto->getNombre() ."\n";
+            }
+            echo "------------------\n";
+        }
+    }
+    */
+    public function getPedidos() {
+        $resultado = "";
+        foreach ($this->pedidos as $pedido) {
+            $resultado .= "Codigo: " . $pedido->getCodigoCliente() . "\n";
+            $resultado .= "Monto: " . $pedido->getMontoTotal() . "\n";
+            $resultado .= "Productos:\n";
+            foreach ($pedido->getListaProducto() as $producto) {
+                $resultado .= $producto->getNombre() . "\n";
+            }
+            $resultado .= "------------------\n";
+        }
+        return $resultado; // Devuelve todos los pedidos como una cadena
+    }
+    public function cargarPedidos($arregloPedidos){
+        foreach ($arregloPedidos as $pedido) {
+            $pedidoAux =new Pedido();
+            $pedidoAux->setCodigoCliente($pedido['codigoCliente']);
+            $pedidoAux->setMontoTotal($pedido['montoTotal']);
+            $pedidoAux->cargarProductos($pedido['listaProducto']);
+            $this->pedidos[]=$pedidoAux;
+        }
     }
 
     public function serialize() {

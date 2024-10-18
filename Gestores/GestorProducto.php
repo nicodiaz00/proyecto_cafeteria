@@ -90,20 +90,16 @@ class GestorProducto{
     }
     public function cerrarGestor(){
         $this->guardarInfo();
-        echo "gestor cerrado, info guardada...\n";
     }
-    public function getListaProductos()
-    {
+    public function getListaProductos(){
         return $this->listaProductos;
     }
-
     public function elegirProducto($valor){
 
         if ($valor > 0 && $valor <= count($this->listaProductos)) {
             $producto = $this->listaProductos[$valor - 1]; // resto uno para coincidir con indice del arreglo
             return $producto;
         } else {
-
             return "Producto invalido"; /*null;*/
         }
     }

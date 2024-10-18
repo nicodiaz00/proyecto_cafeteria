@@ -1,8 +1,27 @@
 [
     {
-        "nombre": "Nicolas",
-        "dni": "34562461",
-        "saldo": "100",
-        "pedidos": []
+        "nombre": "nico",
+        "dni": "1000",
+        "saldo": 0,
+        "pedidos": [
+            {
+                "codigoCliente": 1000,
+                "montoTotal": 30,
+                "listaProducto": [
+                    {
+                        "Nombre": "Cafe espresso",
+                        "Precio": 10,
+                        "Descripcion": "Cuerpo suave y notas a fruta y chocolate",
+                        "Tipo": "Bebida"
+                    },
+                    {
+                        "Nombre": "Tostado JyQ",
+                        "Precio": 20,
+                        "Descripcion": "Sandwich jamon y queso",
+                        "Tipo": "Sandwich"
+                    }
+                ]
+            }
+        ]
     }
 ]
