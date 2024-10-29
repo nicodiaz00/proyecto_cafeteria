@@ -1,6 +1,5 @@
 <?php
-require_once ("Cliente.php");
-
+require_once ("Clases/Cliente.php");
 class GestorCliente
 {
     public $listaClientes = [];
@@ -13,13 +12,15 @@ class GestorCliente
     public function listarClientes()
     {
         echo "Lista de clientes: \n";
+
         foreach ($this->listaClientes as $cliente) {
+
             echo "Nombre: " . $cliente->getNombre() . "\n";
             echo "Dni: " . $cliente->getDni() . "\n";
-            var_dump($cliente->getPedidos());
-            echo "Pedidos: " . $cliente->getPedidos() . "\n";
-            echo "----------\n";
+            $cliente->mostrarPedidos() . "\n";
+            echo "---------------------\n";
         }
+
         echo "Presione enter para continuar\n";
         trim(fgets(STDIN));
     }
@@ -67,7 +68,7 @@ class GestorCliente
                 return $this->listaClientes[$i];
             }
         }
-        return false;
+        return null;
     }
     public function cargarSaldo()
     {
@@ -82,7 +83,6 @@ class GestorCliente
             echo "Cliente no existe\n";
         }
     }
-    //metodos para leer el json, crear el arreglo de cliente y guardar el arreglo de clientes en el json:
     private function leerJson($archivoJson)
     {
         $arregloDeClientes = json_decode(file_get_contents($archivoJson), true);
@@ -97,7 +97,6 @@ class GestorCliente
         $arregloJson = json_encode($arregloAsociativo, JSON_PRETTY_PRINT);
         return $arregloJson;
     }
-
     private function guardarClientes()
     {
         $json = $this->objetosClientesToJson($this->listaClientes);
@@ -106,9 +105,7 @@ class GestorCliente
     public function cerrarGestorCiente()
     {
         $this->guardarClientes();
-
     }
-
     private function cargarClientes($arregloClientes)
     {
         foreach ($arregloClientes as $arregloCliente) {
@@ -120,7 +117,7 @@ class GestorCliente
             $clienteAux->cargarPedidos($arregloCliente['pedidos']);
             $this->listaClientes[] = $clienteAux;
         }
-        var_dump($this->listaClientes);
+        //var_dump($this->listaClientes); para comprobar que el arreglo se transforma en objetos
     }
     public function nuevoCliente($dni, $nombre)
     {
@@ -146,9 +143,49 @@ class GestorCliente
             $nombreCliente =trim(fgets(STDIN));
             $clienteNuevo=$this->nuevoCliente($dniCliente, $nombreCliente);
             $this->listaClientes[] = $clienteNuevo;
+
             echo "\033[32m Registrado con éxito\033[0m\n";
         }else{
             echo "\033[1;31m Ya estas registrado\033[0m\n";
+        }
+    }
+    public function gestionarCuentaCliente(){
+        echo "Ingrese dni:  \n";
+        $dniCliente = trim(fgets(STDIN));
+        $cliente=$this->clienteExiste($dniCliente);
+        if($cliente!=null){
+            while(true){
+                echo "0- Volver \n";
+                echo "1- Cargar saldo \n";
+                echo "2- Ver saldo \n";
+                echo "3- Ver mis pedidos\n";
+                $opcion =trim(fgets(STDIN));
+                switch ($opcion) {
+                    case 0:
+                        return;
+                    case 1:
+                        echo" Ingrese saldo: \n";
+                        $saldo = trim(fgets(STDIN));
+                        $cliente->setSaldo($saldo);
+                        echo "Presione enter para continuar\n";
+                        trim(fgets(STDIN));
+                        break;
+                    case 2:
+                        echo "Su saldo es: " .$cliente->getSaldo() ."\n";
+                        echo "Presione enter para continuar\n";
+                        trim(fgets(STDIN));
+                        break;
+                    case 3:
+                        $cliente->mostrarPedidos();
+                        echo "Presione enter para continuar\n";
+                        trim(fgets(STDIN));
+                        break;
+                }
+            }
+        }else{
+            echo "Dni Invalido\n";
+            echo "Presione enter para continuar\n";
+            trim(fgets(STDIN));
         }
     }
 }

@@ -2,11 +2,29 @@
  require_once ('Producto.php');
  require_once ('Serializar.php');
 class Pedido implements Serializar{
-
+    private static $cantidadPedidos=0;
     private $codigoCliente;
     private $montoTotal;
     private $listaProducto=[];
+    private $id;
 
+    static function crearPedido()
+    {
+        $pedido = new Pedido();
+        Pedido::$cantidadPedidos= Pedido::$cantidadPedidos + 1;
+        $pedido->setId(Pedido::$cantidadPedidos);
+        return $pedido;
+
+    }
+    public static function setCantidadPedidos($cantidadPedidos){
+        self::$cantidadPedidos=$cantidadPedidos;
+    }
+    public function getId(){
+        return $this->id;
+    }
+    public function setId($idPedido){
+        $this->id=$idPedido;
+    }
     public function setCodigoCliente($cod){
         $this->codigoCliente=$cod;
     }
@@ -23,7 +41,7 @@ class Pedido implements Serializar{
         $this->listaProducto[]=$producto;
     }
     public function getListaProducto() {
-        return $this->listaProducto; // Devolver el array de productos
+        return $this->listaProducto;
     }
     public function calcularTotal()
     {
@@ -33,9 +51,8 @@ class Pedido implements Serializar{
         }
         $this->setMontoTotal($total);
         return $total;
-
     }
-    public function cargarProductos($arreglodeProducto){ //intento instanciar los productos que vienen en formato arreglo
+    public function cargarProductos($arreglodeProducto){
         foreach ($arreglodeProducto as $producto){
             $productoAux=new Producto($producto['Nombre'],$producto['Precio'], $producto['Descripcion'], $producto['Tipo']);
             $this->listaProducto[]=$productoAux;
@@ -49,12 +66,11 @@ class Pedido implements Serializar{
         return $listadoProducto;
     }
     public function serialize(){
-
         return[
-            "codigoCliente"=>$this->codigoCliente,
-            "montoTotal"=>$this->montoTotal,
+            "id"=>$this->getId(),
+            "codigoCliente"=>$this->getCodigoCliente(),
+            "montoTotal"=>$this->getMontoTotal(),
             "listaProducto"=>$this->serializarListado()
-
         ];
     }
 }

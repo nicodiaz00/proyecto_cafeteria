@@ -1,13 +1,14 @@
 <?php
-require_once ("Gestores/GestorProducto.php");
-require_once ("Gestores/GestorCliente.php");
-require_once ("Gestores/GestorPedido.php");
+require_once ("GestorProducto.php");
+require_once ("GestorCliente.php");
+require_once ("GestorPedido.php");
 
 Class Gestor{
 
     private $gestionProducto;
     private $gestionCliente;
     private $gestionPedidos;
+    
     public function __construct(){
         $this->gestionProducto = new GestorProducto();
         $this->gestionCliente = new GestorCliente();
@@ -15,7 +16,8 @@ Class Gestor{
     }
     public function cerrarSistema(){
         $this->gestionCliente->cerrarGestorCiente();
-        $this->gestionProducto->cerrarGestor();
+        $this->gestionProducto->cerrarGestorProducto();
+        $this->gestionPedidos->cerrarGestorPedido();
         echo "Hasta luego...\n";
     }
     public function menuAdministrador(){
@@ -58,8 +60,8 @@ Class Gestor{
             echo "1- Ver carta \n ";
             echo "2- Registrarse \n ";
             echo "3- Crear pedido \n ";
-            echo "4- Cargar saldo \n ";
-            echo "5- CREA TU PEDIDO \n ";
+            echo "4- Gestionar cuenta \n ";
+            echo "5- Retirar Pedido \n ";
 
             $seleccion = trim(fgets(STDIN));
 
@@ -73,12 +75,13 @@ Class Gestor{
                     $this->gestionCliente->registrarCliente();
                     break;
                 case "3":
-                    $this->gestionPedidos->crearPedido();
+                    $this->gestionPedidos->registrarPedido();
                     break;
                 case "4":
-                    $this->gestionCliente->cargarSaldo();
+                    $this->gestionCliente->gestionarCuentaCliente();
+                    break;
                 case "5":
-                    $this->gestionPedidos->newPedido();
+                    $this->gestionPedidos->entregarPedido();
             }
         }
     }

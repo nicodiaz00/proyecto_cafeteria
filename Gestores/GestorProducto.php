@@ -1,5 +1,5 @@
 <?php
-require_once ("Producto.php");
+require_once ("Clases/Producto.php");
 class GestorProducto{
     private $listaProductos =[];
     private $archivoJson = "Json/Productos.json";
@@ -88,7 +88,7 @@ class GestorProducto{
         $json= $this->objetosToJson($this->listaProductos);
         file_put_contents($this->archivoJson,$json);
     }
-    public function cerrarGestor(){
+    public function cerrarGestorProducto(){
         $this->guardarInfo();
     }
     public function getListaProductos(){
