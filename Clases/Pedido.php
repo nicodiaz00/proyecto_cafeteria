@@ -43,15 +43,7 @@ class Pedido implements Serializar{
     public function getListaProducto() {
         return $this->listaProducto;
     }
-    public function calcularTotal()
-    {
-        $total=0;
-        foreach ($this->listaProducto as $producto){
-            $total= $total + $producto->getPrecio();
-        }
-        $this->setMontoTotal($total);
-        return $total;
-    }
+    
     public function cargarProductos($arreglodeProducto){
         foreach ($arreglodeProducto as $producto){
             $productoAux=new Producto($producto['Nombre'],$producto['Precio'], $producto['Descripcion'], $producto['Tipo']);

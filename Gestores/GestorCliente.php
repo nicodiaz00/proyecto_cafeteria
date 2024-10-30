@@ -1,5 +1,6 @@
 <?php
-require_once ("Clases/Cliente.php");
+require_once("Clases/Cliente.php");
+require_once('Helper/Helper.php');
 class GestorCliente
 {
     public $listaClientes = [];
@@ -24,61 +25,52 @@ class GestorCliente
         echo "Presione enter para continuar\n";
         trim(fgets(STDIN));
     }
-    public function crearCliente()
-    {
-        echo "Ingrese su  nombre \n";
-        $nombre = trim(fgets(STDIN));
-        echo "Ingrese DNI: \n";
-        $dni = trim(fgets(STDIN));
-
-        $cliente = new Cliente();
-        $cliente->setNombre($nombre);
-        $cliente->setDni($dni);
-        $this->listaClientes[] = $cliente;
-        echo "\033[32mregistrado con éxito\033[0m\n";
-    }
     public function eliminarCliente()
     {
-        $posicion = -1;
-        $arregloClientes = [];
         echo "Ingrese dni: \n";
-        $dni = fgets(STDIN);
-        for ($i = 0; $i < count($this->listaClientes); $i++) {
-            if ($this->listaClientes[$i]->getDni() == $dni) {
-                $posicion = $i;
-                break;
-            }
-        }
-        if ($posicion == -1) {
-            echo "cliente no existe\n";
-        } else {
+        $dni = trim(fgets(STDIN));
+        if (Helper::valorNumerico($dni)) {
+            $clienteEncontrado = false;
             for ($i = 0; $i < count($this->listaClientes); $i++) {
-                if ($i != $posicion) {
-                    $arregloClientes[] = $this->listaClientes[$i];
+                if ($this->listaClientes[$i]->getDni() === $dni) {
+                    unset($this->listaClientes[$i]);
+                    $this->listaClientes = array_values($this->listaClientes);
+                    echo "\033[32mCliente eliminado con exito\033[0m\n";
+                    $clienteEncontrado = true;
+                    break;
                 }
             }
-            $this->listaClientes = $arregloClientes;
-            echo "Cliente eliminado\n";
+            if (!$clienteEncontrado) {
+                echo "Cliente no registrado\n";
+            }
+        } else {
+            echo "Ingrese solo valores numéricos\n";
         }
     }
+
     public function clienteExiste($dni)
     {
-        for ($i = 0; $i < count($this->listaClientes); $i++) {
-            if ($this->listaClientes[$i]->getDni() == $dni) {
-                return $this->listaClientes[$i];
+        foreach ($this->listaClientes as $cliente) {
+            if ($cliente->getDni() === $dni) {
+                return $cliente;
             }
         }
         return null;
     }
-    public function cargarSaldo()
+    
+    private function cargarSaldo()
     {
         echo "Ingrese dni:  \n";
-        $dni = fgets(STDIN);
+        $dni = trim(fgets(STDIN));
         if ($cliente = $this->clienteExiste($dni)) {
             echo "Ingrese el saldo a cargar: \n";
             $saldo = trim(fgets(STDIN));
-            $cliente->setSaldo($saldo);
-            echo "Saldo cargado... \n";
+            if (Helper::valorNumerico($saldo)) {
+                $cliente->setSaldo($saldo);
+                echo "\033[32m Saldo cargado\033[0m\n";
+            } else {
+                echo "\033[1;31m Solo valores enteros !\033[0m\n";
+            }
         } else {
             echo "Cliente no existe\n";
         }
@@ -117,9 +109,8 @@ class GestorCliente
             $clienteAux->cargarPedidos($arregloCliente['pedidos']);
             $this->listaClientes[] = $clienteAux;
         }
-        //var_dump($this->listaClientes); para comprobar que el arreglo se transforma en objetos
     }
-    public function nuevoCliente($dni, $nombre)
+    private function nuevoCliente($dni, $nombre)
     {
         $nuevoCliente = new Cliente();
         $nuevoCliente->setNombre($nombre);
@@ -130,48 +121,64 @@ class GestorCliente
     {
         for ($i = 0; $i < count($this->listaClientes); $i++) {
             if ($this->listaClientes[$i]->getDni() == $dni) {
-                return true;  // Cliente ya está registrado
+                return true;
             }
         }
-        return false;  // Cliente no encontrado
+        return false;
     }
-    public function registrarCliente(){
+    public function registrarCliente()
+    {
         echo "Ingrese dni:  \n";
-        $dniCliente = trim(fgets(STDIN));
-        if(!$this->validarCliente($dniCliente)){
-            echo "Ingrese su nombre \n";
-            $nombreCliente =trim(fgets(STDIN));
-            $clienteNuevo=$this->nuevoCliente($dniCliente, $nombreCliente);
-            $this->listaClientes[] = $clienteNuevo;
 
-            echo "\033[32m Registrado con éxito\033[0m\n";
-        }else{
-            echo "\033[1;31m Ya estas registrado\033[0m\n";
+        $dniCliente = trim(fgets(STDIN));
+
+        if (Helper::valorNumerico($dniCliente)) {
+            if (!$this->validarCliente($dniCliente)) {
+                echo "Ingrese su nombre \n";
+                $nombreCliente = trim(fgets(STDIN));
+
+                if (Helper::soloAlfabetico($nombreCliente)) {
+                    $clienteNuevo = $this->nuevoCliente($dniCliente, $nombreCliente);
+                    $this->listaClientes[] = $clienteNuevo;
+                    echo "\033[32m Registrado con éxito\033[0m\n";
+                } else {
+                    echo "\033[1;31m solo caracteres alfabeticos A...Z\033[0m\n";
+                }
+            } else {
+                echo "\033[1;31m Ya estas registrado\033[0m\n";
+            }
+        } else {
+            echo "\033[1;31m El Dni solo debe contener numeros...\033[0m\n";
         }
     }
-    public function gestionarCuentaCliente(){
+    private function saldoDisponible($dniCliente)
+    {
+        for ($i = 0; $i < count($this->listaClientes); $i++) {
+            if ($this->listaClientes[$i]->getDni() == $dniCliente)
+                echo "Saldo disponible: " . $this->listaClientes[$i]->getSaldo() . "\n";
+        }
+    }
+
+    public function gestionarCuentaCliente()
+    {
         echo "Ingrese dni:  \n";
         $dniCliente = trim(fgets(STDIN));
-        $cliente=$this->clienteExiste($dniCliente);
-        if($cliente!=null){
-            while(true){
+        $cliente = $this->clienteExiste($dniCliente);
+        if ($cliente != null) {
+            while (true) {
                 echo "0- Volver \n";
                 echo "1- Cargar saldo \n";
                 echo "2- Ver saldo \n";
                 echo "3- Ver mis pedidos\n";
-                $opcion =trim(fgets(STDIN));
+                $opcion = trim(fgets(STDIN));
                 switch ($opcion) {
                     case 0:
                         return;
                     case 1:
-                        echo" Ingrese saldo: \n";
-                        $saldo = trim(fgets(STDIN));
-                        $cliente->setSaldo($saldo);
-                        echo "Presione enter para continuar\n";
-                        trim(fgets(STDIN));
+                        $this->cargarSaldo();
                         break;
                     case 2:
-                        echo "Su saldo es: " .$cliente->getSaldo() ."\n";
+                        $this->saldoDisponible($dniCliente);
                         echo "Presione enter para continuar\n";
                         trim(fgets(STDIN));
                         break;
@@ -182,8 +189,8 @@ class GestorCliente
                         break;
                 }
             }
-        }else{
-            echo "Dni Invalido\n";
+        } else {
+            echo "\033[1;31m Dni incorrecto...\033[0m\n";
             echo "Presione enter para continuar\n";
             trim(fgets(STDIN));
         }

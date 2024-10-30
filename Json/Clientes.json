@@ -1,14 +1,1 @@
-[
-    {
-        "nombre": "nico",
-        "dni": "100",
-        "saldo": 320,
-        "pedidos": []
-    },
-    {
-        "nombre": "pepe",
-        "dni": "200",
-        "saldo": 750,
-        "pedidos": []
-    }
-]
+[]

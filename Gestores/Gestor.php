@@ -75,7 +75,7 @@ Class Gestor{
                     $this->gestionCliente->registrarCliente();
                     break;
                 case "3":
-                    $this->gestionPedidos->registrarPedido();
+                    $this->gestionPedidos->registroPedido();
                     break;
                 case "4":
                     $this->gestionCliente->gestionarCuentaCliente();

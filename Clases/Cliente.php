@@ -1,14 +1,16 @@
 <?php
 require_once('Pedido.php');
 require_once('Serializar.php');
-class Cliente implements Serializar{
+class Cliente implements Serializar
+{
 
     private $nombre;
     private $dni;
     private $saldo;
-    private $pedidos =[];
+    private $pedidos = [];
 
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->setSaldo(0);
     }
@@ -16,37 +18,46 @@ class Cliente implements Serializar{
     {
         $this->nombre = $nombre;
     }
-    public function setDni($dni){
-        $this->dni=$dni;
+    public function setDni($dni)
+    {
+        $this->dni = $dni;
     }
-    public function setSaldo($saldo){
-        $this->saldo=$this->saldo + $saldo;
+    public function setSaldo($saldo)
+    {
+        $this->saldo = $this->saldo + $saldo;
     }
-    public function actualizarSaldo($saldo){
+    public function actualizarSaldo($saldo)
+    {
         $this->saldo = $saldo;
     }
-    public function getDni(){
+    public function getDni()
+    {
         return $this->dni;
     }
-    public function getSaldo(){
+    public function getSaldo()
+    {
         return $this->saldo;
     }
-    public function getNombre(){
+    public function getNombre()
+    {
         return $this->nombre;
     }
-    public function registrarPedido($pedido){
-        $this->pedidos[]=$pedido;
+    
+    public function registrarPedido($pedido)
+    {
+        $this->pedidos[] = $pedido;
     }
-    public function retirarPedido($pedidoId){
-        for($i=0;$i<count($this->pedidos);$i++){
-            if($this->pedidos[$i]->getId()==$pedidoId){
+    public function retirarPedido($pedidoId)
+    {
+        for ($i = 0; $i < count($this->pedidos); $i++) {
+            if ($this->pedidos[$i]->getId() == $pedidoId) {
                 unset($this->pedidos[$i]);
                 break;
-
             }
         }
         $this->pedidos = array_values($this->pedidos);
     }
+    
     public function getPedidos()
     {
         return $this->pedidos;
@@ -56,26 +67,28 @@ class Cliente implements Serializar{
         foreach ($this->pedidos as $pedido) {
             echo " ---- \n";
             echo "Pedido: \n";
-            echo "Id:" .$pedido->getId() ."\n";
-            echo "Codigo:" .$pedido->getCodigoCliente() ."\n";
-            echo "Monto:" .$pedido->getMontoTotal() ."\n";
+            echo "Id:" . $pedido->getId() . "\n";
+            echo "Codigo:" . $pedido->getCodigoCliente() . "\n";
+            echo "Monto:" . $pedido->getMontoTotal() . "\n";
             echo "Productos:\n";
             foreach ($pedido->getListaproducto() as $producto) {
-                echo $producto->getNombre() ."\n";
+                echo $producto->getNombre() . "\n";
             }
         }
     }
-    public function cargarPedidos($arregloPedidos){
+    public function cargarPedidos($arregloPedidos)
+    {
         foreach ($arregloPedidos as $pedido) {
-            $pedidoAux =new Pedido();
+            $pedidoAux = new Pedido();
             $pedidoAux->setiD($pedido['id']);  // intento traer el id dl pdido del json
             $pedidoAux->setCodigoCliente($pedido['codigoCliente']);
             $pedidoAux->setMontoTotal($pedido['montoTotal']);
             $pedidoAux->cargarProductos($pedido['listaProducto']);
-            $this->pedidos[]=$pedidoAux;
+            $this->pedidos[] = $pedidoAux;
         }
     }
-    public function serialize() {
+    public function serialize()
+    {
         $pedidosSerializados = [];
         foreach ($this->pedidos as $pedido) {
             $pedidosSerializados[] = $pedido->serialize();
@@ -87,17 +100,4 @@ class Cliente implements Serializar{
             "pedidos" => $pedidosSerializados
         ];
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
