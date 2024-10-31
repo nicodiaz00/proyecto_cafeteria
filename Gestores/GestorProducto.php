@@ -21,10 +21,9 @@ class GestorProducto
     private function agregarProducto(Producto $producto)
     {
         $this->listaProductos[] = $producto;
-        echo "Producto cargado al sistema\n";
+        
     }
-    private function crearProducto()
-    {
+    public function registrarProducto(){
         echo "---------\n";
         echo "Ingrese nombre producto: \n";
         $nombre = trim(fgets(STDIN));
@@ -35,47 +34,61 @@ class GestorProducto
         echo "Ingrese tipo: 'bebida' o 'sandwich' \n";
         $tipo = trim(fgets(STDIN));
 
-        echo "Producto creado \n";
-        return $producto = new Producto($nombre, $precio, $descripcion, $tipo);
+        $nuevoProducto = $this->nuevoProducto($nombre,$precio,$descripcion,$tipo);
+
+        $this->agregarProducto($nuevoProducto);
+
+        echo "Producto cargado al sistema\n";
     }
-    public function eliminarProducto()
-    {
+    private function nuevoProducto($nombre,$precio,$descripcion,$tipo){
+        
+        $producto = new Producto($nombre, $precio, $descripcion, $tipo);
+
+        return $producto;
+    }
+    private function reorganizarListaProductos(){
+        $this->listaProductos = array_values($this->listaProductos);
+    }
+    private function encontrarProducto($nombre){
         $posicion = -1;
-        $nuevoStock = [];
-        echo "Ingrese nombre del producto a eliminar \n";
-        $nombreProducto = trim(fgets(STDIN));
-        for ($i = 0; $i < count($this->listaProductos); $i++) {
-            if ($this->listaProductos[$i]->getNombre() == $nombreProducto) {
+        for($i = 0;$i < count($this->listaProductos);$i++){
+            if($nombre == $this->listaProductos[$i]->getNombre()){
                 $posicion = $i;
                 break;
             }
         }
-        if ($posicion == -1) {
-            echo "Producto no encontrado \n";
+        return $posicion;
+    }
+
+    public function eliminarProducto(){
+        echo "Ingrese nombre del producto a eliminar \n";
+        $nombreProducto = trim(fgets(STDIN));
+
+        $posicionProducto = $this->encontrarProducto($nombreProducto);
+
+        if($posicionProducto != -1){
+            $this->quitarProductoLista($posicionProducto);
+            $this->reorganizarListaProductos();
+
+            echo "\033[0;32mProducto eliminado y stock actualizado\033[0m \n";
             echo "Presione ENTER para continuar...\n";
-            readline();
-        } else {
-            for ($x = 0; $x < count($this->listaProductos); $x++) {
-                if ($x != $posicion) {
-                    $nuevoStock[] = $this->listaProductos[$x];
-                }
-            }
-            $this->listaProductos = $nuevoStock;
-            echo "Producto eliminado y stock actualizado \n";
+            trim(fgets(STDIN));
+        }else{
+            echo "\033[0;31mProducto no encontrado\033[0m \n";
             echo "Presione ENTER para continuar...\n";
-            readline();
         }
+
     }
-    public function cargarProducto()
-    {
-        $product = $this->crearProducto();
-        $this->agregarProducto($product);
+    private function quitarProductoLista($posicion){
+        unset($this->listaProductos[$posicion]);
     }
+  
     private function cargarStock($arreglo)
     {
         foreach ($arreglo as $pr) {
-            $productoAux = new Producto($pr['Nombre'], $pr['Precio'], $pr['Descripcion'], $pr['Tipo']);
-            $this->listaProductos[] = $productoAux;
+            
+            $productoAux = $this->nuevoProducto($pr['Nombre'], $pr['Precio'], $pr['Descripcion'], $pr['Tipo']);
+            $this->agregarProducto($productoAux);   
         }
     }
     
@@ -114,7 +127,7 @@ class GestorProducto
             $producto = $this->listaProductos[$valor - 1];
             return $producto;
         } else {
-            return "Producto invalido"; /*null;*/
+            return  null;
         }
         
     }

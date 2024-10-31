@@ -15,62 +15,41 @@ class GestorPedido
         $this->gestorCliente = $clienteGestion;
         $this->cargarArregloPedidos($this->jsonPedidos);
     }
-
-    private function cargarArregloPedidos($infoJson)
-    {
-        $arregloAsociativo = $this->leerDatos($infoJson);
-        $this->cargarPedidos($arregloAsociativo);
-    }
-    private function leerDatos($archivoJson)
-    {
-        $arregloPedidos = json_decode(file_get_contents($archivoJson), true);
-        return $arregloPedidos;
-    }
-    private function cargarPedidos($arreglo)
-    {
-        for ($i = 0; $i < count($arreglo); $i++) {
-            $pedido = new Pedido();
-            $pedido->setId($arreglo[$i]['id']);
-            $ultimoID = $arreglo[$i]['id'];
-            Pedido::setCantidadPedidos($ultimoID);
-            $pedido->setCodigoCliente($arreglo[$i]['codigoCliente']);
-            $pedido->setMontoTotal($arreglo[$i]['montoTotal']);
-
-            for ($x = 0; $x < count($arreglo[$i]['listaProducto']); $x++) {
-                $producto = new Producto(
-                    $arreglo[$i]['listaProducto'][$x]['Nombre'],
-                    $arreglo[$i]['listaProducto'][$x]['Precio'],
-                    $arreglo[$i]['listaProducto'][$x]['Descripcion'],
-                    $arreglo[$i]['listaProducto'][$x]['Tipo']
-                );
-                $pedido->setListaProducto($producto);
-            }
-            $this->pedidos[] = $pedido;
-        }
-    }
-    public function registroPedido()
-    {
+   
+    public function registrarNuevoPedido(){
         echo "Ingrese su dni\n";
         $dniCliente = trim(fgets(STDIN));
 
         $cliente = $this->gestorCliente->clienteExiste($dniCliente);
-        if ($cliente) {
 
-            $pedidoAux = $this->nuevoPedido($cliente->getDni());
-            $cliente->registrarPedido($pedidoAux);
-        } else {
+        if($cliente !=null){
+            $pedido=$this->pedidoNuevo($cliente->getDni());
+
+            $pedidoConProductos = $this->ingresarProductoAlpedido($pedido);
+            
+            $cliente->registrarPedido($pedidoConProductos);
+            
+            $this->ingresarPedido($pedidoConProductos);
+
+            echo "Pedido cargado al sistema \n";
+
+        }else {
             echo "\033[1;31m No estas registrado\033[0m\n";
             echo "Presione enter para continuar\n";
             trim(fgets(STDIN));
         }
     }
-    private function nuevoPedido($dniCliente)
-    {
+
+    private function pedidoNuevo($clienteDni){
         $pedidoAux = Pedido::crearPedido();
-        $pedidoAux->setCodigoCliente($dniCliente);
+        $pedidoAux->setCodigoCliente($clienteDni);
+        return $pedidoAux;
+    }
+
+    private function ingresarProductoAlpedido($pedido){
         echo "Presione 1 para comenzar a agregar productos:\n";
         $opcion = trim(fgets(STDIN));
-
+       
         while ($opcion != 0) {
             $this->mostrarCarta();
             echo "Seleccione un producto (1,2,3...) para agregar a su pedido, o 0 para finalizar:\n";
@@ -80,14 +59,25 @@ class GestorPedido
                 break;
             } else {
                 $productoSeleccionado = $this->gestorProducto->elegirProducto($opcion);
-                $pedidoAux->setListaProducto($productoSeleccionado);
-                $pedidoAux->setMontoTotal($productoSeleccionado->getPrecio());
-                echo "\033[32mProducto Agregado...\033[0m\n";
+                if($productoSeleccionado !=null){
+                    $pedido->setListaProducto($productoSeleccionado);
+                    $pedido->setMontoTotal($productoSeleccionado->getPrecio());
+                    echo "\033[32mProducto Agregado...\033[0m\n";
+
+                }else{
+                    echo "\033[0;33mIngrese una opcion valida.. presione enter para volver a agregar otro producto\033[0m \n";
+                    trim(fgets(STDIN));
+
+                }
             }
         }
         echo "\033[32mSu pedido ha sido creado, ¡gracias!\033[0m\n";
-        $this->pedidos[] = $pedidoAux;
-        return $pedidoAux;
+        return $pedido;
+    
+    }
+   
+    private function ingresarPedido($pedido){
+        $this->pedidos[] = $pedido;
     }
     public function listarPedidos()
     {
@@ -119,9 +109,7 @@ class GestorPedido
         if ($saldoCliente >= $saldoPedido) {
             $saldoFinal = $saldoCliente - $saldoPedido;
             return $saldoFinal;
-        } else {
-            return "Saldo insuficiente para realizar cobro\n";
-        }
+        } 
     }
     public function entregarPedido()
     {
@@ -180,6 +168,39 @@ class GestorPedido
             }
         }
         return null;
+    }
+    private function cargarArregloPedidos($infoJson)
+    {
+        $arregloAsociativo = $this->leerDatos($infoJson);
+        $this->cargarPedidos($arregloAsociativo);
+    }
+    private function leerDatos($archivoJson)
+    {
+        $arregloPedidos = json_decode(file_get_contents($archivoJson), true);
+        return $arregloPedidos;
+    }
+    private function cargarPedidos($arreglo)
+    {
+        for ($i = 0; $i < count($arreglo); $i++) {
+            $pedido = new Pedido();
+            $pedido->setId($arreglo[$i]['id']);
+            $ultimoID = $arreglo[$i]['id'];
+            Pedido::setCantidadPedidos($ultimoID);
+            $pedido->setCodigoCliente($arreglo[$i]['codigoCliente']);
+            $pedido->setMontoTotal($arreglo[$i]['montoTotal']);
+
+            for ($x = 0; $x < count($arreglo[$i]['listaProducto']); $x++) {
+                $producto = new Producto(
+                    $arreglo[$i]['listaProducto'][$x]['Nombre'],
+                    $arreglo[$i]['listaProducto'][$x]['Precio'],
+                    $arreglo[$i]['listaProducto'][$x]['Descripcion'],
+                    $arreglo[$i]['listaProducto'][$x]['Tipo']
+                );
+                $pedido->setListaProducto($producto);
+            }
+            $this->ingresarPedido($pedido);
+            
+        }
     }
     private function PedidosToJson($arregloPedidos)
     {

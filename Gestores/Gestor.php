@@ -42,9 +42,10 @@ Class Gestor{
                     $this->gestionCliente->eliminarCliente();
                     break;
                 case "3":
-                    $this->gestionProducto->cargarProducto();
+                    $this->gestionProducto->registrarProducto();
                     break;
                 case "4":
+                    //$this->gestionProducto->eliminarProducto();
                     $this->gestionProducto->eliminarProducto();
                     break;
                 case "5":
@@ -75,7 +76,8 @@ Class Gestor{
                     $this->gestionCliente->registrarCliente();
                     break;
                 case "3":
-                    $this->gestionPedidos->registroPedido();
+                    //$this->gestionPedidos->registroPedido();
+                    $this->gestionPedidos->registrarNuevoPedido();
                     break;
                 case "4":
                     $this->gestionCliente->gestionarCuentaCliente();
