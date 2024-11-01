@@ -10,5 +10,11 @@
         "dni": "2244",
         "saldo": 0,
         "pedidos": []
+    },
+    {
+        "nombre": "nico",
+        "dni": "222",
+        "saldo": 0,
+        "pedidos": []
     }
 ]

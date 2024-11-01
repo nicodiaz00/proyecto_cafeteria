@@ -31,6 +31,7 @@ Class Gestor{
             echo "5- Ver pedidos \n ";
 
             $opcion = trim(fgets(STDIN));
+            echo "\033[2J\033[H";
 
             switch($opcion){
                 case "0":
@@ -65,6 +66,7 @@ Class Gestor{
             echo "5- Retirar Pedido \n ";
 
             $seleccion = trim(fgets(STDIN));
+            echo "\033[2J\033[H";
 
             switch($seleccion){
                 case "0":
@@ -96,6 +98,7 @@ Class Gestor{
             echo "2- Menu Administrador\n";
 
             $opcion = trim(fgets(STDIN));
+            echo "\033[2J\033[H";
             switch ($opcion){
                 case 0:
                     $this->cerrarSistema();
